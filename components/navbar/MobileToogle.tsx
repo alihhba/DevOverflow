@@ -13,6 +13,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
+import SignupButton from "../SignupButton";
+import LoginButton from "../LoginButton";
 
 const MobileToogle = () => {
   const pathName = usePathname();
@@ -68,24 +70,12 @@ const MobileToogle = () => {
         </div>
 
         <div className="flex flex-col w-full gap-3  justify-end items-end mt-auto px-6">
-          <SignedOut>
-            <SheetClose className="w-full">
-              <Link href={"/sign-in"}>
-                <Button className="w-full dark:bg-dark-400 bg-light-800 py-3 text-primary-500 body-medium min-h-[41px] outline-none border-none focus-visible:ring-0 focus-visible:ring-offset-0">
-                  Login
-                </Button>
-              </Link>
-            </SheetClose>
-          </SignedOut>
-          <SignedOut>
-            <SheetClose className="w-full">
-              <Link href={"/sign-up"}>
-                <Button className="w-full dark:bg-dark-300 bg-light-700  border-light-700 border rounded-lg py-3 body-medium min-h-[41px]">
-                  Sign up
-                </Button>
-              </Link>
-            </SheetClose>
-          </SignedOut>
+          <SheetClose className="w-full">
+            <LoginButton mobile={true} />
+          </SheetClose>
+          <SheetClose className="w-full">
+            <SignupButton mobile={true} />
+          </SheetClose>
         </div>
       </SheetContent>
     </Sheet>

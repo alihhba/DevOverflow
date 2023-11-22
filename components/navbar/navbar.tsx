@@ -8,7 +8,7 @@ import GlobalSearch from "../search/GlobalSearch";
 
 const Navbar = () => {
   return (
-    <nav className="flex-between dark:bg-dark-200 bg-light-900 fixed z-50 w-full p-6 sm:px-12">
+    <nav className="flex-between  top-0 dark:bg-dark-200 bg-light-900 fixed z-50 w-full p-4 sm:px-12">
       <Link href="/" className="flex items-center gap-1">
         <Image
           src={"/assets/images/icon.svg"}

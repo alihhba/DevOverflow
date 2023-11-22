@@ -1,3 +1,4 @@
+import LeftSidebar from "@/components/LeftSidebar";
 import Navbar from "@/components/navbar/navbar";
 import React from "react";
 
@@ -6,9 +7,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <main className="bg-white dark:bg-black">
       <Navbar />
       <div className="flex">
-        <div className="max-md:hidden">leftsidevar</div>
+        <LeftSidebar />
 
-        <section className="flex min-h-screen flex-1 flex-col px-6 pb-6 pt-36 max-md:pb-14 sm:px-14">
+        <section className="flex min-h-screen flex-1 flex-col px-6 pb-6 pt-32 max-md:pb-14 sm:px-14">
           <div className="mx-auto w-full md:max-w-5xl">{children}</div>
         </section>
 
