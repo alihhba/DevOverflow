@@ -10,7 +10,7 @@ import SignupButton from "./SignupButton";
 const LeftSidebar = () => {
   const pathName = usePathname();
   return (
-    <div className="flex flex-col pt-32 h-screen fixed left-0 top-0 overflow-y-scroll  bg-light-900 dark:bg-dark-200 w-fit max-md:hidden pb-10">
+    <div className="flex flex-col pt-32 h-screen sticky top-0 left-0 bottom-0 overflow-y-scroll  bg-light-900 dark:bg-dark-200 w-fit max-md:hidden pb-10 border-r dark:border-dark-300">
       <div className="w-full flex flex-col gap-2 px-6">
         {sidebarLinks.map((item): any => {
           const isActive = pathName.includes(item.route);
