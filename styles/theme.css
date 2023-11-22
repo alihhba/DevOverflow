@@ -132,9 +132,9 @@
   .subtle-regular {
     @apply text-[10px] font-normal leading-[13px];
   }
-  .placeholder {
-    @apply placeholder:text-light-400 dark:placeholder:text-light-;
-  }
+  /* .placeholder {
+    @apply placeholder:text-light-400 dark:placeholder:text-light-200;
+  } */
   .invert-colors {
     @apply invert dark:invert-0;
   }

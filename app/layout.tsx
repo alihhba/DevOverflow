@@ -4,7 +4,8 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import React from "react";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import { ThemeProvider } from "@/constant/themeProvider";
+import { ThemeProvider } from "@/components/theme-provider";
+import HydrationProvider from "@/components/HydrationProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,9 +32,16 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
-        <ThemeProvider>
-          <body className={inter.className}>{children}</body>
-        </ThemeProvider>
+        <body className={inter.className}>
+          <HydrationProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system" 
+            >
+              {children}
+            </ThemeProvider>
+          </HydrationProvider>
+        </body>
       </html>
     </ClerkProvider>
   );
