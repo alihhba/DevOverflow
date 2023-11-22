@@ -7,7 +7,7 @@ const Topquestions = [
   {
     _id: 1,
     title:
-      "Would it be appropriate to point out an error in another paper during a referee report?",
+      "Would it be appropriate to point out java an error in another paper during a referee report?Would it be appropriate to point out an error in another paper during a referee report?Would it be appropriate to point out an error in another paper during a referee report?",
   },
   {
     _id: 2,
@@ -53,7 +53,7 @@ const RightSidebar = () => {
               key={question._id}
               className="flex items-center gap-2 justify-between w-full"
             >
-              <p className="body-medium">{question.title}</p>
+              <p className={`body-medium line-clamp-3 `}>{question.title}</p>
               <div className="w-5 h-5 min-w-5 min-h-5 mb-auto">
                 <ChevronRight className="w-5 h-5 text-dark-200 dark:text-light-900 " />
               </div>

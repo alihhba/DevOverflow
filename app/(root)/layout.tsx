@@ -10,7 +10,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="flex">
         <LeftSidebar />
 
-        <section className="flex  bg-white dark:bg-black min-h-screen h-full overflow-y-scroll flex-1 flex-col px-6 pb-6 pt-32 max-md:pb-14 sm:px-14">
+        <section className="flex  bg-white dark:bg-black min-h-screen h-full overflow-y-scroll flex-1 flex-col px-6 pb-6 pt-32 max-md:pb-14 sm:px-10">
           <div className="mx-auto w-full md:max-w-5xl">{children}</div>
         </section>
 

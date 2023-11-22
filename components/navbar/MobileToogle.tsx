@@ -44,7 +44,9 @@ const MobileToogle = () => {
 
         <div className="w-full flex flex-col gap-4 px-6">
           {sidebarLinks.map((item): any => {
-            const isActive = pathName.includes(item.route);
+            const isActive =
+              item.route.includes(pathName) && item.route === pathName;
+
             return (
               <SheetClose asChild key={item.label} className="w-full">
                 <Link
