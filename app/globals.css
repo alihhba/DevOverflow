@@ -135,6 +135,12 @@ body {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+  .shadow-1 {
+    box-shadow:
+      0px 0px 40px 0px rgba(184, 184, 184, 0.1),
+      0px 0px 10px 0px rgba(184, 184, 184, 0),
+      0px 0px 10px 0px rgba(184, 184, 184, 0);
+  }
 }
 
 @layer base {

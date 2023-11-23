@@ -28,14 +28,14 @@ const Topquestions = [
 ];
 
 const TopTags = [
-  { title: "javascript", _id: 1 },
-  { title: "react", _id: 2 },
-  { title: "node", _id: 3 },
-  { title: "tailwindcss", _id: 4 },
-  { title: "css", _id: 5 },
-  { title: "typescript", _id: 6 },
-  { title: "mongodb", _id: 7 },
-  { title: "python", _id: 8 },
+  { title: "javascript", _id: "1" },
+  { title: "react", _id: "2" },
+  { title: "node", _id: "3" },
+  { title: "tailwindcss", _id: "4" },
+  { title: "css", _id: "5" },
+  { title: "typescript", _id: "6" },
+  { title: "mongodb", _id: "7" },
+  { title: "python", _id: "8" },
 ];
 
 const RightSidebar = () => {

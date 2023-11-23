@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 interface TagProps {
-  id: number;
+  id: string;
   title: string;
   showCount?: boolean;
   total?: number;

@@ -23,14 +23,14 @@ const Filter = ({ filter, className, mainClassName }: filterProps) => {
     <div className={cn("", mainClassName)}>
       <Select>
         <SelectTrigger
-          className={`bg-light-800 dark:dark-gradient min-h-[56px] border-none gap-3 ${className}`}
+          className={`bg-light-800 dark:dark-gradient min-h-[56px]  border-none gap-3 ${className}`}
         >
           <SelectValue placeholder="Select filter" />
         </SelectTrigger>
-        <SelectContent className="bg-light-800 dark:dark-gradient">
+        <SelectContent className="bg-light-800 dark:bg-dark-200">
           <SelectGroup>
             {filter.map((item) => (
-              <SelectItem key={item.value} value={item.value}>
+              <SelectItem key={item.value} value={item.value} >
                 {item.name}
               </SelectItem>
             ))}
