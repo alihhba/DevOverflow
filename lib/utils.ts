@@ -33,13 +33,19 @@ export const getTimeStamp = (createdAt: Date): string => {
       day: "numeric",
       year: "numeric",
     });
-  } else if (days > 1) {
+  } else  if (days >= 2) {
     return `${days} days ago`;
-  } else if (hours > 1) {
+  } else if (days === 1) {
+    return `1 day ago`;
+  } else if (hours >= 2) {
     return `${hours} hours ago`;
-  } else if (minutes > 1) {
+  } else if (hours === 1) {
+    return `1 hour ago`;
+  } else if (minutes >= 2) {
     return `${minutes} minutes ago`;
-  } else {
+  } else if (minutes === 1) {
+    return `1 minute ago`;
+  }else {
     return "Just now";
   }
 };
