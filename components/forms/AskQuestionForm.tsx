@@ -3,7 +3,6 @@ import React, { useRef, useState } from "react";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Editor } from "@tinymce/tinymce-react";
 import {
   Form,
   FormControl,
@@ -14,10 +13,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
 import { questionSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Editor } from "@tinymce/tinymce-react";
+import { useForm } from "react-hook-form";
 import Tag from "../Tag";
+import { createQuestion } from "@/lib/actions/questsion.actions";
 
 const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,6 +36,7 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
     setIsSubmitting(true);
 
     try {
+      await createQuestion(values);
       console.log(values);
     } catch (error) {
       console.log(error);
@@ -52,7 +54,7 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
       e.preventDefault();
 
       const tagInput = e.target as HTMLInputElement;
-      const tagValue = tagInput.value.trim();
+      const tagValue = tagInput.value.trim().replace(/\s+/g, "");
 
       if (tagValue !== "") {
         if (tagValue.length > 15) {
@@ -82,6 +84,42 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
       }
     }
   };
+
+  // const handleAddTags = (e: any, field: any) => {
+  //   e.preventDefault();
+
+  //   console.log(field);
+
+  //   const tagInput = e.target as HTMLInputElement;
+  //   const tagValue = tagInput.value.trim().replace(/\s+/g, "");
+
+  //   if (tagValue !== "") {
+  //     if (tagValue.length > 15) {
+  //       return form.setError("tags", {
+  //         type: "required",
+  //         message: "tag must be less than 15 characters",
+  //       });
+  //     }
+
+  //     if (field.value.length >= 3) {
+  //       return form.setError("tags", {
+  //         type: "required",
+  //         message: "tags can't more than 3.",
+  //       });
+  //     }
+
+  //     if (!field.value.includes(tagValue as never)) {
+  //       form.setValue("tags", [...field.value, tagValue]);
+  //       tagInput.value = "";
+  //       form.clearErrors("tags");
+  //     } else {
+  //       tagInput.value = "";
+  //       form.clearErrors("tags");
+  //     }
+  //   } else {
+  //     form.trigger();
+  //   }
+  // };
 
   const handleRemoveTag = (item: string, field: any) => {
     const newTags = field.value.filter((tag: string) => item !== tag);
@@ -133,10 +171,9 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
                       (editorRef.current = editor)
                     }
                     initialValue=""
-                    onChange={(e) =>
-                      form.setValue("explanation", e.target.getContent())
-                    }
-                    // onSubmit={(e) => (e.target.value = "")}
+                    onBlur={field.onBlur}
+                    // onEditorChange={(content) => field.onChange(content)}
+                    onSubmit={(e) => (e.target.value = "")}
                     init={{
                       height: 360,
                       menubar: false,
@@ -186,6 +223,12 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
                       className="dark:bg-dark-300 bg-light-800  outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-0 p-0 m-0"
                     />
                   </FormControl>
+                  {/* <Button
+                    type="button"
+                    onClick={(e) => handleAddTags(e, field)}
+                    >
+                    Add
+                    </Button> */}
                 </div>
                 <FormDescription className="flex body-medium dark:text-light-500 text-light-400">
                   Press Enter to add tag
