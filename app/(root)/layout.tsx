@@ -5,12 +5,12 @@ import React from "react";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="bg-white dark:bg-black h-screen">
+    <main className="h-screen bg-white dark:bg-black">
       <Navbar />
       <div className="flex">
         <LeftSidebar />
 
-        <section className="flex  bg-white dark:bg-black min-h-screen h-full overflow-y-scroll flex-1 flex-col px-6 pb-6 pt-32 max-md:pb-14 sm:px-10">
+        <section className="flex  h-full min-h-screen flex-1 flex-col overflow-y-scroll bg-white px-6 pb-6 pt-32 dark:bg-black max-md:pb-14 sm:px-10">
           <div className="mx-auto w-full md:max-w-5xl">{children}</div>
         </section>
 

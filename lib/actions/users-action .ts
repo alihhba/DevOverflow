@@ -1,11 +1,10 @@
-import { auth } from "@clerk/nextjs";
-("use server");
+"use server";
 
+import Question from "@/database/question-model";
 import User from "@/database/user-schema";
 import { revalidatePath } from "next/cache";
 import { connectDB } from "../mongoose";
 import { CreateUserParams, DeleteUserParams, UpdateUserParams } from "./types";
-import Question from "@/database/question-model";
 
 export async function getUserById(params: any) {
   try {
@@ -66,9 +65,9 @@ export async function deleteUser(params: DeleteUserParams) {
       throw new Error("user not found");
     }
 
-    const userQuestionsId = await Question.find({ auth: user._id }).distinct(
-      "_id"
-    );
+    // const userQuestionsId = await Question.find({ auth: user._id }).distinct(
+    //   "_id"
+    // );
 
     await Question.deleteMany({ author: user._id });
 

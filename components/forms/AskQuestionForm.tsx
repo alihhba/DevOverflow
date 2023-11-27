@@ -156,17 +156,17 @@ const AskQuestionForm = ({ isEdit, mongoUserId }: askQuestionFormProps) => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="dark:text-light-800 text-dark-100  paragraph-regular pb-3.5">
+                <FormLabel className="paragraph-regular pb-3.5  text-dark-100 dark:text-light-800">
                   Question Title <span className="text-primary-500">*</span>
                 </FormLabel>
 
                 <FormControl>
                   <Input
                     {...field}
-                    className="px-6 py-4 dark:bg-dark-300 bg-light-800 border-light-700 rounded-1.5 outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-2 dark:border-dark-400 min-h-[56px]"
+                    className="min-h-[56px] rounded-lg border-2 border-light-700 bg-light-800 px-6 py-4 outline-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:border-dark-400 dark:bg-dark-300"
                   />
                 </FormControl>
-                <FormMessage className="text-red-500 text-xs" />
+                <FormMessage className="text-xs text-red-500" />
               </FormItem>
             )}
           />
@@ -175,7 +175,7 @@ const AskQuestionForm = ({ isEdit, mongoUserId }: askQuestionFormProps) => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="dark:text-light-800 text-dark-100  paragraph-regular pb-3.5">
+                <FormLabel className="paragraph-regular pb-3.5  text-dark-100 dark:text-light-800">
                   Detailed explanation of your problem?{" "}
                   <span className="text-primary-500">*</span>
                 </FormLabel>
@@ -184,7 +184,7 @@ const AskQuestionForm = ({ isEdit, mongoUserId }: askQuestionFormProps) => {
                   <Editor
                     apiKey="mzvmyd8dwbeaazgpywzhogdrybh2o06u5jofhxftb57gy01z"
                     onInit={(evt, editor) =>
-                      //@ts-ignore
+                      // @ts-ignore
                       (editorRef.current = editor)
                     }
                     initialValue=""
@@ -221,7 +221,7 @@ const AskQuestionForm = ({ isEdit, mongoUserId }: askQuestionFormProps) => {
                     }}
                   />
                 </FormControl>
-                <FormMessage className="text-red-500 text-xs" />
+                <FormMessage className="text-xs text-red-500" />
               </FormItem>
             )}
           />
@@ -230,14 +230,14 @@ const AskQuestionForm = ({ isEdit, mongoUserId }: askQuestionFormProps) => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="dark:text-light-800 text-dark-100  paragraph-regular pb-3.5">
+                <FormLabel className="paragraph-regular pb-3.5  text-dark-100 dark:text-light-800">
                   Tags <span className="text-primary-500">*</span>
                 </FormLabel>
-                <div className="flex px-6 py-2 dark:bg-dark-300 bg-light-800 border-light-700 rounded-1.5 outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-2 dark:border-dark-400 min-h-[56px] rounded-lg">
+                <div className="flex min-h-[56px] rounded-lg border-2 border-light-700 bg-light-800 px-6 py-2 outline-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:border-dark-400 dark:bg-dark-300">
                   <FormControl>
                     <Input
                       onKeyDown={(e) => handleInputKeyDown(e, field)}
-                      className="dark:bg-dark-300 bg-light-800  outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-0 p-0 m-0"
+                      className="m-0 border-0  bg-light-800 p-0 outline-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-dark-300"
                     />
                   </FormControl>
                   {/* <Button
@@ -247,7 +247,7 @@ const AskQuestionForm = ({ isEdit, mongoUserId }: askQuestionFormProps) => {
                     Add
                     </Button> */}
                 </div>
-                <FormDescription className="flex body-medium dark:text-light-500 text-light-400">
+                <FormDescription className="body-medium flex text-light-400 dark:text-light-500">
                   Press Enter to add tag
                 </FormDescription>
 
@@ -264,13 +264,13 @@ const AskQuestionForm = ({ isEdit, mongoUserId }: askQuestionFormProps) => {
                     ))}
                 </div>
 
-                <FormMessage className="text-red-500 text-xs pt-2" />
+                <FormMessage className="pt-2 text-xs text-red-500" />
               </FormItem>
             )}
           />
           <Button
             type="submit"
-            className="min-h-[40px] bg-primary-500  w-fit text-bold text-light-900  ml-auto"
+            className="ml-auto min-h-[40px]  w-fit bg-primary-500 font-bold  text-light-900"
             disabled={isSubmitting}
           >
             {isEdit ? "Edit" : "Submit"}

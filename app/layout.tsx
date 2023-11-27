@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import type { Metadata } from "next";
 // eslint-disable-next-line camelcase
 import HydrationProvider from "@/components/HydrationProvider";

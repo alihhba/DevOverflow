@@ -9,12 +9,12 @@ const Home = async () => {
   const result = await GetQuestions({});
 
   return (
-    <div className="flex flex-col w-full">
-      <p className="text-dark-200  dark:text-light-900 h1-bold md:mb-7 mb-4 ">
+    <div className="flex w-full flex-col">
+      <p className="h1-bold  mb-4 text-dark-200 dark:text-light-900 md:mb-7 ">
         All Questions
       </p>
 
-      <div className="flex items-center max-md:flex-col gap-2">
+      <div className="flex items-center gap-2 max-md:flex-col">
         <GlobalSearch
           placeholder="Search for Question"
           className="w-full"
@@ -23,12 +23,12 @@ const Home = async () => {
 
         <Filter
           filter={HomePageFilters}
-          className="md:min-w-[180px] max-md:w-full "
+          className="max-md:w-full md:min-w-[180px] "
           mainClassName=" max-md:w-full"
         />
       </div>
 
-      <div className="flex mt-10 w-full flex-col gap-5">
+      <div className="mt-10 flex w-full flex-col gap-5">
         {result.questions.length > 0 ? (
           result.questions.map((q) => (
             <QuestionCard

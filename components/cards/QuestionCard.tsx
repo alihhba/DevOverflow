@@ -33,27 +33,27 @@ const QuestionCard = ({
   votes,
 }: questionCardProps) => {
   return (
-    <div className="w-full flex flex-col bg-light-900 dark:bg-dark-200 md:py-9 py-5 md:px-12 px-5   rounded-lg gap-3.5 drop-shadow-lg dark:shadow-none">
-      <div className="flex flex-col gap-2 w-full">
-        <p className="dark:text-light-400 text-dark-400 small-regular md:hidden">
+    <div className="flex w-full flex-col gap-3.5 rounded-lg bg-light-900 p-5 drop-shadow-lg dark:bg-dark-200   dark:shadow-none md:px-12 md:py-9">
+      <div className="flex w-full flex-col gap-2">
+        <p className="small-regular text-dark-400 dark:text-light-400 md:hidden">
           {getTimeStamp(createdAt)}
         </p>
         {/* title */}
         <Link href={`/questions/${id}`}>
-          <p className="md:h3-semibold base-medium  line-clamp-2 lg:line-clamp-3 md:leading-8">
+          <p className="md:h3-semibold base-medium  line-clamp-2 md:leading-8 lg:line-clamp-3">
             {title}
           </p>
         </Link>
       </div>
       {/* tags */}
-      <div className="flex flex-row gap-2 flex-wrap ">
+      <div className="flex flex-row flex-wrap gap-2 ">
         {tags.map((tag) => (
           <Tag id={tag._id} title={tag.name} key={tag._id} />
         ))}
       </div>
       {/* metrics */}
 
-      <div className="flex max-md:flex-col justify-between w-full max-md:gap-2 mt-6">
+      <div className="mt-6 flex w-full justify-between max-md:flex-col max-md:gap-2">
         <Metrics
           value={author.name}
           title={getTimeStamp(createdAt)}
@@ -63,7 +63,7 @@ const QuestionCard = ({
           titleClassName="max-md:hidden"
           valueClassName="base-semibold"
         />
-        <div className="flex items-center md:ml-auto gap-3">
+        <div className="flex items-center gap-3 md:ml-auto">
           <Metrics
             title="votes"
             imageUrl="/assets/icons/like.svg"
