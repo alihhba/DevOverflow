@@ -34,10 +34,7 @@ export default function RootLayout({
       <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
         <body className={inter.className}>
           <HydrationProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system" 
-            >
+            <ThemeProvider attribute="class" defaultTheme="system">
               {children}
             </ThemeProvider>
           </HydrationProvider>
