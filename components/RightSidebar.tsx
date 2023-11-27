@@ -40,22 +40,22 @@ const TopTags = [
 
 const RightSidebar = () => {
   return (
-    <div className="flex overflow-x-hidden flex-col pt-32 px-6 h-screen sticky top-0 right-0 bottom-0 overflow-y-scroll  bg-light-900 dark:bg-dark-200 w-[350px] max-xl:hidden pb-10 border-l dark:border-dark-300">
+    <div className="sticky inset-y-0 right-0 flex h-screen w-[350px] flex-col overflow-x-hidden overflow-y-scroll border-l bg-light-900  px-6 pb-10 pt-32 dark:border-dark-300 dark:bg-dark-200 max-xl:hidden">
       <div>
-        <h3 className="h3-bold text-dark-200 dark:text-light-900 mb-7">
+        <h3 className="h3-bold mb-7 text-dark-200 dark:text-light-900">
           Top Questions
         </h3>
 
-        <div className="flex flex-col gap-7 w-full">
+        <div className="flex w-full flex-col gap-7">
           {Topquestions.map((question) => (
             <Link
               href={`/questions/${question._id}`}
               key={question._id}
-              className="flex items-center gap-2 justify-between w-full"
+              className="flex w-full items-center justify-between gap-2"
             >
               <p className={`body-medium line-clamp-3 `}>{question.title}</p>
-              <div className="w-5 h-5 min-w-5 min-h-5 mb-auto">
-                <ChevronRight className="w-5 h-5 text-dark-200 dark:text-light-900 " />
+              <div className="mb-auto h-5 min-h-[20px] w-5 min-w-[20px]">
+                <ChevronRight className="h-5 w-5 text-dark-200 dark:text-light-900 " />
               </div>
             </Link>
           ))}
@@ -63,7 +63,7 @@ const RightSidebar = () => {
       </div>
 
       <div className="mt-16">
-        <h3 className="h3-bold text-dark-200 dark:text-light-900 mb-7">
+        <h3 className="h3-bold mb-7 text-dark-200 dark:text-light-900">
           Popular Tag
         </h3>
         <div className="flex flex-col gap-4 ">
@@ -72,7 +72,7 @@ const RightSidebar = () => {
               id={tag._id}
               key={tag._id}
               title={tag.title}
-              total={tag.total}
+              // total={tag?.total}
               showCount
             />
           ))}

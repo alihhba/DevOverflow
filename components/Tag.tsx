@@ -13,12 +13,12 @@ interface TagProps {
 const Tag = ({ id, title, showCount, total, xButton }: TagProps) => {
   if (xButton) {
     return (
-      <div className="flex items-center justify-between cursor-pointer w-fit">
-        <div className="flex items-center gap-2 justify-between w-fit">
-          <div className="dark:bg-dark-300 flex items-center gap-2  bg-light-800 py-2 pl-2 pr-1 rounded-md text-light-400 dark:text-light-500 subtle-regular drop-shadow-lg dark:drop-shadow-none">
+      <div className="flex w-fit cursor-pointer items-center justify-between">
+        <div className="flex w-fit items-center justify-between gap-2">
+          <div className="subtle-regular flex items-center gap-2  rounded-md bg-light-800 py-2 pl-2 pr-1 text-light-400 drop-shadow-lg dark:bg-dark-300 dark:text-light-500 dark:drop-shadow-none">
             <p className="body-medium">{title}</p>
 
-            {xButton && <X className="w-3 h-3" />}
+            {xButton && <X className="h-3 w-3" />}
           </div>
         </div>
       </div>
@@ -29,9 +29,9 @@ const Tag = ({ id, title, showCount, total, xButton }: TagProps) => {
     <div className="flex items-center justify-between">
       <Link
         href={`/tags/${id}`}
-        className="flex items-center gap-2 justify-between w-fit"
+        className="flex w-fit items-center justify-between gap-2"
       >
-        <div className="dark:bg-dark-300  bg-light-800 py-2 px-4 rounded-md text-light-400 dark:text-light-500 subtle-regular drop-shadow-lg dark:drop-shadow-none">
+        <div className="subtle-regular  rounded-md bg-light-800 px-4 py-2 text-light-400 drop-shadow-lg dark:bg-dark-300 dark:text-light-500 dark:drop-shadow-none">
           <p className="body-medium">{title}</p>
         </div>
       </Link>

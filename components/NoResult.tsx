@@ -23,7 +23,7 @@ const NoResult = ({
   btnTitle,
 }: noResultProps) => {
   return (
-    <div className="flex items-center w-full flex-col gap-2">
+    <div className="flex w-full flex-col items-center gap-2">
       <Image src={imageURL} width={400} height={400} alt="nothing image" />
       <p className="h2-bold">{title}</p>
       <p className="body-regular">{desc}</p>

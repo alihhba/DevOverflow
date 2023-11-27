@@ -23,7 +23,7 @@ const Filter = ({ filter, className, mainClassName }: filterProps) => {
     <div className={cn("", mainClassName)}>
       <Select>
         <SelectTrigger
-          className={`bg-light-800 dark:dark-gradient min-h-[56px]  border-none gap-3 ${className}`}
+          className={`dark:dark-gradient min-h-[56px] gap-3  border-none bg-light-800 ${className}`}
         >
           <SelectValue placeholder="Select filter" />
         </SelectTrigger>

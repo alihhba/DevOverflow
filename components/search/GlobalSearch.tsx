@@ -1,6 +1,6 @@
 import { Search } from "lucide-react";
 import { Input } from "../ui/input";
-import { SearchParamsProps } from "@/index";
+// import { SearchParamsProps } from "@/index";
 import { cn } from "@/lib/utils";
 
 interface globalSearchProps {
@@ -26,12 +26,12 @@ const GlobalSearch = ({
       )}
     >
       <Search
-        className={`w-6 h-6  text-dark-500 ${
+        className={`h-6 w-6  text-dark-500 ${
           iconSide === "right" ? "mr-2" : "ml-2"
         } `}
       />
       <Input
-        className="w-full bg-transparent h-full border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:dark:text-light-500 placeholder:text-light-400"
+        className="h-full w-full border-none bg-transparent outline-none placeholder:text-light-400 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:dark:text-light-500"
         placeholder={placeholder}
       />
     </div>

@@ -7,12 +7,12 @@ import {
 } from "@/components/ui/sheet";
 
 import { sidebarLinks } from "@/constant/constant";
-import { SignedOut } from "@clerk/nextjs";
+// import { SignedOut } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "../ui/button";
+// import { Button } from "../ui/button";
 import SignupButton from "../SignupButton";
 import LoginButton from "../LoginButton";
 
@@ -21,13 +21,13 @@ const MobileToogle = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Menu className="w-9 h-9 text-dark-200 dark:text-light-900 md:hidden" />
+        <Menu className="h-9 w-9 text-dark-200 dark:text-light-900 md:hidden" />
       </SheetTrigger>
       <SheetContent
         side={"left"}
-        className="bg-light-900 dark:bg-dark-200 border-0 flex flex-col h-screen overflow-y-scroll items-start p-0 pb-10"
+        className="flex h-screen flex-col items-start overflow-y-scroll border-0 bg-light-900 p-0 pb-10 dark:bg-dark-200"
       >
-        <div className="sticky top-0 bg-light-900 dark:bg-dark-200 z-50 w-full h-fit px-6 py-6">
+        <div className="sticky top-0 z-50 h-fit w-full bg-light-900 p-6 dark:bg-dark-200">
           <Link href="/" className="flex items-center gap-1 ">
             <Image
               src={"/assets/images/icon.svg"}
@@ -36,13 +36,13 @@ const MobileToogle = () => {
               alt="devLogo"
             />
 
-            <p className="text-dark-100 font-spaceGrotesk h2-bold dark:text-light-900">
+            <p className="h2-bold font-spaceGrotesk text-dark-100 dark:text-light-900">
               Dev<span className="text-primary-500">Overflow</span>
             </p>
           </Link>
         </div>
 
-        <div className="w-full flex flex-col gap-4 px-6">
+        <div className="flex w-full flex-col gap-4 px-6">
           {sidebarLinks.map((item): any => {
             const isActive =
               item.route.includes(pathName) && item.route === pathName;
@@ -51,7 +51,7 @@ const MobileToogle = () => {
               <SheetClose asChild key={item.label} className="w-full">
                 <Link
                   href={item.route}
-                  className={`flex items-center justify-start gap-4 p-4 rounded-lg w-full ${
+                  className={`flex w-full items-center justify-start gap-4 rounded-lg p-4 ${
                     isActive
                       ? "bg-primary-500 text-light-900"
                       : "bg-transparent  text-dark-300 dark:text-light-900"
@@ -71,7 +71,7 @@ const MobileToogle = () => {
           })}
         </div>
 
-        <div className="flex flex-col w-full gap-3  justify-end items-end mt-auto px-6">
+        <div className="mt-auto flex w-full flex-col  items-end justify-end gap-3 px-6">
           <SheetClose className="w-full">
             <LoginButton mobile={true} />
           </SheetClose>
