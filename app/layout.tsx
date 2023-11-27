@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 // eslint-disable-next-line camelcase
+import HydrationProvider from "@/components/HydrationProvider";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Inter, Space_Grotesk } from "next/font/google";
 import React from "react";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
-import { ThemeProvider } from "@/components/theme-provider";
-import HydrationProvider from "@/components/HydrationProvider";
 
 const inter = Inter({
   subsets: ["latin"],
