@@ -14,8 +14,8 @@ const AskQuestionPage = async () => {
   const user = await getUserById({ userId });
 
   return (
-    <div className="flex flex-col w-full">
-      <p className="h2-bold dark:text-light-900 text-dark-100">
+    <div className="flex w-full flex-col">
+      <p className="h2-bold text-dark-100 dark:text-light-900">
         Ask a question
       </p>
 
