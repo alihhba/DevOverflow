@@ -4,5 +4,22 @@
     "standard",
     "plugin:tailwindcss/recommended",
     "prettier"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "overrides": [
+    {
+      "files": ["*.html"],
+      "parser": "babel-eslint",
+      "extends": ["plugin:react/recommended"]
+    }
   ]
 }
