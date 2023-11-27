@@ -9,14 +9,14 @@ interface questionCardProps {
   title: string;
   tags: {
     _id: string;
-    title: string;
+    name: string;
   }[];
   author: {
     _id: string;
     name: string;
     img: string;
   };
-  votes: number;
+  votes: Array<Object>;
   views: number;
   answers: Array<Object>;
   createdAt: Date;
@@ -35,7 +35,7 @@ const QuestionCard = ({
   return (
     <div className="w-full flex flex-col bg-light-900 dark:bg-dark-200 md:py-9 py-5 md:px-12 px-5   rounded-lg gap-3.5 drop-shadow-lg dark:shadow-none">
       <div className="flex flex-col gap-2 w-full">
-        <p className="dark:text-light-700text-dark-400 small-regular md:hidden">
+        <p className="dark:text-light-400 text-dark-400 small-regular md:hidden">
           {getTimeStamp(createdAt)}
         </p>
         {/* title */}
@@ -48,7 +48,7 @@ const QuestionCard = ({
       {/* tags */}
       <div className="flex flex-row gap-2 flex-wrap ">
         {tags.map((tag) => (
-          <Tag id={tag._id} title={tag.title} key={tag._id} />
+          <Tag id={tag._id} title={tag.name} key={tag._id} />
         ))}
       </div>
       {/* metrics */}
@@ -67,7 +67,7 @@ const QuestionCard = ({
           <Metrics
             title="votes"
             imageUrl="/assets/icons/like.svg"
-            value={formatNumber(votes)}
+            value={formatNumber(votes.length)}
             valueClassName="small-regular"
           />
           <Metrics

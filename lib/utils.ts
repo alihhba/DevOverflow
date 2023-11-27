@@ -58,6 +58,6 @@ export const formatNumber = (num: number): string => {
     const formattedNum = (num / 1000).toFixed(1);
     return `${formattedNum}K`;
   } else {
-    return num.toString();
+    return num?.toString();
   }
 };

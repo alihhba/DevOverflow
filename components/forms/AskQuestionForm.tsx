@@ -13,15 +13,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { createQuestion } from "@/lib/actions/questsion.actions";
 import { questionSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
 import { useForm } from "react-hook-form";
 import Tag from "../Tag";
-import { createQuestion } from "@/lib/actions/questsion.actions";
+import { usePathname, useRouter } from "next/navigation";
 
-const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
+interface askQuestionFormProps {
+  isEdit: boolean;
+  mongoUserId: string;
+}
+
+const AskQuestionForm = ({ isEdit, mongoUserId }: askQuestionFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
   const editorRef = useRef(null);
   const form = useForm<z.infer<typeof questionSchema>>({
     defaultValues: {
@@ -35,9 +43,18 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
   const onSubmit = async (values: z.infer<typeof questionSchema>) => {
     setIsSubmitting(true);
 
+    // console.log(values);
+
     try {
-      await createQuestion(values);
-      console.log(values);
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: mongoUserId,
+        path: pathname,
+      });
+
+      router.push("/");
     } catch (error) {
       console.log(error);
     } finally {
@@ -172,7 +189,7 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
                     }
                     initialValue=""
                     onBlur={field.onBlur}
-                    // onEditorChange={(content) => field.onChange(content)}
+                    onEditorChange={(content) => field.onChange(content)}
                     onSubmit={(e) => (e.target.value = "")}
                     init={{
                       height: 360,
