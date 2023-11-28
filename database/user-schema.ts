@@ -16,13 +16,13 @@ export interface IUser extends Document {
 }
 
 const UserSchema = new Schema({
-  clerkId: { type: String },
-  name: { type: String },
-  username: { type: String, unique: true },
-  email: { type: String, unique: true },
+  clerkId: { type: String, required: true },
+  name: { type: String, required: true },
+  username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String },
   bio: { type: String },
-  picture: { type: String },
+  picture: { type: String, required: true },
   location: { type: String },
   portfolioWeb: { type: String },
   reputation: { type: Number, default: 0 },
