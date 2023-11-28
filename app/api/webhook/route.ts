@@ -6,11 +6,7 @@ import { buffer } from "micro";
 import { createUser, deleteUser, updateUser } from "@/lib/actions/users-action ";
 import { NextResponse } from "next/server";
 
-// export const config = {
-//   api: {
-//     bodyParser: false,
-//   },
-// };
+
 
 export default async function handler(
   req: NextApiRequest,
@@ -107,3 +103,9 @@ export default async function handler(
 
   return res.status(200).json({ response: "Success" });
 }
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
