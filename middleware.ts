@@ -6,7 +6,7 @@ import { authMiddleware } from "@clerk/nextjs";
 export default authMiddleware({
   publicRoutes: [
     "/",
-    "/api/webhook",
+    "/api/webhooks(.*)",
     "/tags",
     "/tags/:id",
     "/profile/:id",
