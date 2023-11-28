@@ -19,7 +19,7 @@ const AskQuestionPage = async () => {
         Ask a question
       </p>
 
-      <AskQuestionForm isEdit={false} mongoUserId={JSON.stringify(user._id)} />
+      <AskQuestionForm isEdit={false} mongoUserId={JSON.stringify(user?._id)} />
     </div>
   );
 };
