@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/classnames-order */
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,7 +31,7 @@ const Metrics = ({
             height={30}
             width={30}
             alt={title}
-            className="rounded-full pr-1"
+            className="max-h-[30px] min-h-[30px] min-w-[30px] max-w-[30px] rounded-full object-cover mr-1"
           />
         ) : (
           <Image src={imageUrl} height={20} width={20} alt={title} />
