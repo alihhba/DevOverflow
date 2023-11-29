@@ -3,7 +3,6 @@ import React, { useRef, useState } from "react";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Editor } from "@tinymce/tinymce-react";
 import {
   Form,
   FormControl,
@@ -14,13 +13,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
+import { createQuestion } from "@/lib/actions/questsion.actions";
 import { questionSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Editor } from "@tinymce/tinymce-react";
+import { useForm } from "react-hook-form";
 import Tag from "../Tag";
+import { usePathname, useRouter } from "next/navigation";
 
-const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
+interface askQuestionFormProps {
+  isEdit: boolean;
+  mongoUserId: string;
+}
+
+const AskQuestionForm = ({ isEdit, mongoUserId }: askQuestionFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
   const editorRef = useRef(null);
   const form = useForm<z.infer<typeof questionSchema>>({
     defaultValues: {
@@ -34,8 +43,18 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
   const onSubmit = async (values: z.infer<typeof questionSchema>) => {
     setIsSubmitting(true);
 
+    // console.log(values);
+
     try {
-      console.log(values);
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: mongoUserId,
+        path: pathname,
+      });
+
+      router.push("/");
     } catch (error) {
       console.log(error);
     } finally {
@@ -52,7 +71,7 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
       e.preventDefault();
 
       const tagInput = e.target as HTMLInputElement;
-      const tagValue = tagInput.value.trim();
+      const tagValue = tagInput.value.trim().replace(/\s+/g, "");
 
       if (tagValue !== "") {
         if (tagValue.length > 15) {
@@ -83,6 +102,42 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
     }
   };
 
+  // const handleAddTags = (e: any, field: any) => {
+  //   e.preventDefault();
+
+  //   console.log(field);
+
+  //   const tagInput = e.target as HTMLInputElement;
+  //   const tagValue = tagInput.value.trim().replace(/\s+/g, "");
+
+  //   if (tagValue !== "") {
+  //     if (tagValue.length > 15) {
+  //       return form.setError("tags", {
+  //         type: "required",
+  //         message: "tag must be less than 15 characters",
+  //       });
+  //     }
+
+  //     if (field.value.length >= 3) {
+  //       return form.setError("tags", {
+  //         type: "required",
+  //         message: "tags can't more than 3.",
+  //       });
+  //     }
+
+  //     if (!field.value.includes(tagValue as never)) {
+  //       form.setValue("tags", [...field.value, tagValue]);
+  //       tagInput.value = "";
+  //       form.clearErrors("tags");
+  //     } else {
+  //       tagInput.value = "";
+  //       form.clearErrors("tags");
+  //     }
+  //   } else {
+  //     form.trigger();
+  //   }
+  // };
+
   const handleRemoveTag = (item: string, field: any) => {
     const newTags = field.value.filter((tag: string) => item !== tag);
 
@@ -101,17 +156,17 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="dark:text-light-800 text-dark-100  paragraph-regular pb-3.5">
+                <FormLabel className="paragraph-regular pb-3.5  text-dark-100 dark:text-light-800">
                   Question Title <span className="text-primary-500">*</span>
                 </FormLabel>
 
                 <FormControl>
                   <Input
                     {...field}
-                    className="px-6 py-4 dark:bg-dark-300 bg-light-800 border-light-700 rounded-1.5 outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-2 dark:border-dark-400 min-h-[56px]"
+                    className="min-h-[56px] rounded-lg border-2 border-light-700 bg-light-800 px-6 py-4 outline-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:border-dark-400 dark:bg-dark-300"
                   />
                 </FormControl>
-                <FormMessage className="text-red-500 text-xs" />
+                <FormMessage className="text-xs text-red-500" />
               </FormItem>
             )}
           />
@@ -120,7 +175,7 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="dark:text-light-800 text-dark-100  paragraph-regular pb-3.5">
+                <FormLabel className="paragraph-regular pb-3.5  text-dark-100 dark:text-light-800">
                   Detailed explanation of your problem?{" "}
                   <span className="text-primary-500">*</span>
                 </FormLabel>
@@ -129,14 +184,13 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
                   <Editor
                     apiKey="mzvmyd8dwbeaazgpywzhogdrybh2o06u5jofhxftb57gy01z"
                     onInit={(evt, editor) =>
-                      //@ts-ignore
+                      // @ts-ignore
                       (editorRef.current = editor)
                     }
                     initialValue=""
-                    onChange={(e) =>
-                      form.setValue("explanation", e.target.getContent())
-                    }
-                    // onSubmit={(e) => (e.target.value = "")}
+                    onBlur={field.onBlur}
+                    onEditorChange={(content) => field.onChange(content)}
+                    onSubmit={(e) => (e.target.value = "")}
                     init={{
                       height: 360,
                       menubar: false,
@@ -167,7 +221,7 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
                     }}
                   />
                 </FormControl>
-                <FormMessage className="text-red-500 text-xs" />
+                <FormMessage className="text-xs text-red-500" />
               </FormItem>
             )}
           />
@@ -176,18 +230,24 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="dark:text-light-800 text-dark-100  paragraph-regular pb-3.5">
+                <FormLabel className="paragraph-regular pb-3.5  text-dark-100 dark:text-light-800">
                   Tags <span className="text-primary-500">*</span>
                 </FormLabel>
-                <div className="flex px-6 py-2 dark:bg-dark-300 bg-light-800 border-light-700 rounded-1.5 outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-2 dark:border-dark-400 min-h-[56px] rounded-lg">
+                <div className="flex min-h-[56px] rounded-lg border-2 border-light-700 bg-light-800 px-6 py-2 outline-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:border-dark-400 dark:bg-dark-300">
                   <FormControl>
                     <Input
                       onKeyDown={(e) => handleInputKeyDown(e, field)}
-                      className="dark:bg-dark-300 bg-light-800  outline-none focus-visible:ring-0 focus-visible:ring-offset-0 border-0 p-0 m-0"
+                      className="m-0 border-0  bg-light-800 p-0 outline-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-dark-300"
                     />
                   </FormControl>
+                  {/* <Button
+                    type="button"
+                    onClick={(e) => handleAddTags(e, field)}
+                    >
+                    Add
+                    </Button> */}
                 </div>
-                <FormDescription className="flex body-medium dark:text-light-500 text-light-400">
+                <FormDescription className="body-medium flex text-light-400 dark:text-light-500">
                   Press Enter to add tag
                 </FormDescription>
 
@@ -204,13 +264,13 @@ const AskQuestionForm = ({ isEdit }: { isEdit: boolean }) => {
                     ))}
                 </div>
 
-                <FormMessage className="text-red-500 text-xs pt-2" />
+                <FormMessage className="pt-2 text-xs text-red-500" />
               </FormItem>
             )}
           />
           <Button
             type="submit"
-            className="min-h-[40px] bg-primary-500  w-fit text-bold text-light-900  ml-auto"
+            className="ml-auto min-h-[40px]  w-fit bg-primary-500 font-bold  text-light-900"
             disabled={isSubmitting}
           >
             {isEdit ? "Edit" : "Submit"}

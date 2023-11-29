@@ -8,7 +8,7 @@ const LoginButton = ({ mobile }: { mobile: boolean }) => {
   return (
     <SignedOut>
       <Link href={"/sign-in"}>
-        <Button className="w-full dark:bg-dark-400 bg-light-800 py-3 text-primary-500 body-medium min-h-[41px] outline-none border-none focus-visible:ring-0 focus-visible:ring-offset-0">
+        <Button className="body-medium min-h-[41px] w-full border-none bg-light-800 py-3 text-primary-500 outline-none focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-dark-400">
           <p className={`${!mobile && "max-lg:hidden"}`}>Login</p>
 
           <Image

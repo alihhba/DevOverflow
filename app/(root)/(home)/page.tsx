@@ -3,53 +3,18 @@ import NoResult from "@/components/NoResult";
 import QuestionCard from "@/components/cards/QuestionCard";
 import GlobalSearch from "@/components/search/GlobalSearch";
 import { HomePageFilters } from "@/constant/filters";
+import { GetQuestions } from "@/lib/actions/questsion.actions";
 
-const questions = [
-  {
-    _id: "1",
-    title: "crud operation on mongodb",
-    tags: [
-      { _id: "1", title: "mongodb" },
-      { _id: "2", title: "nextjs" },
-    ],
-    author: {
-      _id: "1",
-      name: "ali",
-      img: "image-url-ali",
-    },
-    votes: 10,
-    views: 56,
-    answers: [],
-    createdAt: new Date("2023-11-19T13:00:00.000Z"),
-  },
-  {
-    _id: "2",
-    title: "how can center div",
-    tags: [
-      { _id: "1", title: "css" },
-      { _id: "2", title: "nextjs" },
-    ],
-    author: {
-      _id: "2",
-      name: "mmd",
-      img: "image-url-mmd",
-    },
-    votes: 3432,
-    views: 121111311,
-    answers: [],
-    createdAt: new Date("2022-09-01T12:00:00.000Z"),
-  },
-];
+const Home = async () => {
+  const result = await GetQuestions({});
 
-
-const Home = () => {
   return (
-    <div className="flex flex-col w-full">
-      <p className="text-dark-200  dark:text-light-900 h1-bold md:mb-7 mb-4 ">
+    <div className="flex w-full flex-col">
+      <p className="h1-bold  mb-4 text-dark-200 dark:text-light-900 md:mb-7 ">
         All Questions
       </p>
 
-      <div className="flex items-center max-md:flex-col gap-2">
+      <div className="flex items-center gap-2 max-md:flex-col">
         <GlobalSearch
           placeholder="Search for Question"
           className="w-full"
@@ -58,21 +23,21 @@ const Home = () => {
 
         <Filter
           filter={HomePageFilters}
-          className="md:min-w-[180px] max-md:w-full "
+          className="max-md:w-full md:min-w-[180px] "
           mainClassName=" max-md:w-full"
         />
       </div>
 
-      <div className="flex mt-10 w-full flex-col gap-5">
-        {questions.length > 0 ? (
-          questions.map((q) => (
+      <div className="mt-10 flex w-full flex-col gap-5">
+        {result.questions.length > 0 ? (
+          result.questions.map((q) => (
             <QuestionCard
               key={q._id}
               id={q._id}
               title={q.title}
               tags={q.tags}
               author={q.author}
-              votes={q.votes}
+              votes={q.upVotes}
               views={q.views}
               answers={q.answers}
               createdAt={q.createdAt}

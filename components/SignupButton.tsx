@@ -8,7 +8,7 @@ const SignupButton = ({ mobile }: { mobile: boolean }) => {
   return (
     <SignedOut>
       <Link href={"/sign-up"}>
-        <Button className="w-full dark:bg-dark-300 bg-light-700  border-light-700 border rounded-lg py-3 body-medium min-h-[41px]">
+        <Button className="body-medium min-h-[41px] w-full  rounded-lg border border-light-700 bg-light-700 py-3 dark:bg-dark-300">
           <p className={`${!mobile && "max-lg:hidden"}`}>Sign up</p>
 
           <Image
