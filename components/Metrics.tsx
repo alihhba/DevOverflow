@@ -27,10 +27,10 @@ const Metrics = ({
         {isAuthor ? (
           <Image
             src={imageUrl}
-            height={25}
-            width={25}
+            height={30}
+            width={30}
             alt={title}
-            className="pr-1"
+            className="rounded-full pr-1"
           />
         ) : (
           <Image src={imageUrl} height={20} width={20} alt={title} />

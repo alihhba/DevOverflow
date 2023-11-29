@@ -14,7 +14,7 @@ interface questionCardProps {
   author: {
     _id: string;
     name: string;
-    img: string;
+    picture: string;
   };
   votes: Array<Object>;
   views: number;
@@ -57,7 +57,7 @@ const QuestionCard = ({
         <Metrics
           value={author.name}
           title={getTimeStamp(createdAt)}
-          imageUrl="/assets/images/avatar.svg"
+          imageUrl={author.picture}
           href={author._id}
           isAuthor
           titleClassName="max-md:hidden"
