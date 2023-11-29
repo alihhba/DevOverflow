@@ -4,7 +4,12 @@ import Question from "@/database/question-model";
 import User from "@/database/user-schema";
 import { revalidatePath } from "next/cache";
 import { connectDB } from "../mongoose";
-import { CreateUserParams, DeleteUserParams, UpdateUserParams } from "./types";
+import {
+  CreateUserParams,
+  DeleteUserParams,
+  GetAllUsersParams,
+  UpdateUserParams,
+} from "./types";
 
 export async function getUserById(params: any) {
   try {
@@ -74,6 +79,19 @@ export async function deleteUser(params: DeleteUserParams) {
     const deleteUser = await User.findByIdAndDelete(user._id);
 
     return deleteUser;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function GetAllUsers(params: GetAllUsersParams) {
+  try {
+    connectDB();
+
+    const users = await User.find({}).sort({ joinedAt: -1 });
+
+    return { users };
   } catch (error) {
     console.log(error);
     throw error;

@@ -10,6 +10,11 @@
 body {
   font-family: "Inter", sans-serif;
 }
+
+.grid-col-auto-fill {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
 @layer utilities {
   .flex-center {
     @apply flex justify-center items-center;
@@ -26,7 +31,7 @@ body {
   .btn {
     @apply bg-light-800 dark:bg-dark-300 !important;
   }
-  
+
   .btn-secondary {
     @apply bg-light-800 dark:bg-dark-400 !important;
   }

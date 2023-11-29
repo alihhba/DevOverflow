@@ -11,7 +11,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <LeftSidebar />
 
         <section className="flex  h-full min-h-screen flex-1 flex-col overflow-y-scroll bg-white px-6 pb-6 pt-32 dark:bg-black max-md:pb-14 sm:px-10">
-          <div className="mx-auto w-full md:max-w-5xl">{children}</div>
+          <div className="mx-auto w-full md:max-w-7xl">{children}</div>
         </section>
 
         <RightSidebar />

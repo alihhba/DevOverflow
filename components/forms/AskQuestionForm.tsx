@@ -17,9 +17,9 @@ import { createQuestion } from "@/lib/actions/questsion.actions";
 import { questionSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
+import { usePathname, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Tag from "../Tag";
-import { usePathname, useRouter } from "next/navigation";
 
 interface askQuestionFormProps {
   isEdit: boolean;
