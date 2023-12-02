@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 // eslint-disable-next-line camelcase
 import HydrationProvider from "@/components/HydrationProvider";
@@ -8,6 +7,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Inter, Space_Grotesk } from "next/font/google";
 import React from "react";
 import "./globals.css";
+import "../styles/prism.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
+  children
 }: {
   children: React.ReactNode;
 }) {

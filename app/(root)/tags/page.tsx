@@ -7,6 +7,7 @@ import { GetAllTags } from "@/lib/actions/tag-actions";
 
 const TagsPage = async () => {
   const result = await GetAllTags({});
+
   return (
     <div className="flex w-full flex-col">
       <p className="h1-bold  mb-4 text-dark-200 dark:text-light-900 md:mb-7 ">

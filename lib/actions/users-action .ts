@@ -8,6 +8,7 @@ import {
   CreateUserParams,
   DeleteUserParams,
   GetAllUsersParams,
+  ToggleSaveQuestionParams,
   UpdateUserParams,
 } from "./types";
 
@@ -92,6 +93,33 @@ export async function GetAllUsers(params: GetAllUsersParams) {
     const users = await User.find({}).sort({ joinedAt: -1 });
 
     return { users };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function AddQuestionToCollection(
+  params: ToggleSaveQuestionParams
+) {
+  try {
+    connectDB();
+
+    const { path, questionId, userId } = params;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { saved: questionId },
+      },
+      { new: true }
+    );
+
+    if (!user) {
+      throw new Error("user not found");
+    }
+
+    revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw error;

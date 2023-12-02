@@ -58,7 +58,7 @@ const QuestionCard = ({
           value={author.name}
           title={getTimeStamp(createdAt)}
           imageUrl={author.picture}
-          href={author._id}
+          href={`/profile/${author._id}`}
           isAuthor
           titleClassName="max-md:hidden"
           valueClassName="base-semibold"
@@ -67,13 +67,13 @@ const QuestionCard = ({
           <Metrics
             title="votes"
             imageUrl="/assets/icons/like.svg"
-            value={formatNumber(votes.length)}
+            value={formatNumber(votes?.length)}
             valueClassName="small-regular"
           />
           <Metrics
             title="answers"
             imageUrl="/assets/icons/answers.svg"
-            value={formatNumber(answers.length)}
+            value={formatNumber(answers?.length)}
             valueClassName="small-regular"
           />
           <Metrics

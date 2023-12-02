@@ -2,14 +2,15 @@
 
 import Question from "@/database/question-model";
 import Tag from "@/database/tag-schema";
+import User from "@/database/user-schema";
+import { revalidatePath } from "next/cache";
 import { connectDB } from "../mongoose";
 import {
   CreateQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
+  QuestionVoteParams,
 } from "./types";
-import User from "@/database/user-schema";
-import { revalidatePath } from "next/cache";
 
 export async function createQuestion(params: CreateQuestionParams) {
   try {
@@ -21,7 +22,7 @@ export async function createQuestion(params: CreateQuestionParams) {
     const question = await Question.create({
       title,
       content,
-      author: JSON.parse(author),
+      author,
     });
 
     const tagDocument = [];
@@ -97,7 +98,77 @@ export async function GetQuestionById(params: GetQuestionByIdParams) {
         select: "_id clerkId name picture",
       });
 
-    return {question};
+    return { question };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function UpVoteQuestion(params: QuestionVoteParams) {
+  try {
+    connectDB();
+
+    const { hasUpVoted, hasDownVoted, questionId, userId, path } = params;
+
+    let updateQuery = {};
+
+    if (hasUpVoted) {
+      updateQuery = { $pull: { upVotes: userId } };
+    } else if (hasDownVoted) {
+      updateQuery = {
+        $push: { upVotes: userId },
+        $pull: { downVotes: userId },
+      };
+    } else updateQuery = { $addToSet: { upVotes: userId } };
+
+    const question = await Question.findByIdAndUpdate(questionId, updateQuery, {
+      new: true,
+    });
+
+    if (!question) {
+      throw new Error("question not found");
+    }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function DownVoteQuestion(params: QuestionVoteParams) {
+  try {
+    connectDB();
+
+    const { hasDownVoted, hasUpVoted, questionId, path, userId } = params;
+
+    let updateQuery = {};
+
+    if (hasDownVoted) {
+      updateQuery = {
+        $pull: { downVotes: userId },
+      };
+    } else if (hasUpVoted) {
+      updateQuery = {
+        $pull: {
+          upVotes: userId,
+        },
+        $push: { downVotes: userId },
+      };
+    } else {
+      updateQuery = { $addToSet: { downVotes: userId } };
+    }
+
+    const question = await Question.findByIdAndUpdate(questionId, updateQuery, {
+      new: true,
+    });
+
+    if (!question) {
+      throw new Error("question not found");
+    }
+
+    revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw error;

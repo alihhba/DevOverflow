@@ -18,7 +18,7 @@ interface filterProps {
   mainClassName: string;
 }
 
-const Filter = ({ filter, className, mainClassName }: filterProps) => {
+const  Filter = ({ filter, className, mainClassName }: filterProps) => {
   return (
     <div className={cn("", mainClassName)}>
       <Select>

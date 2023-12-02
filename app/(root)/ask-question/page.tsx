@@ -11,6 +11,8 @@ const AskQuestionPage = async () => {
     redirect("/sign-up");
   }
 
+ 
+
   const user = await getUserById({ userId });
 
   return (
@@ -19,7 +21,7 @@ const AskQuestionPage = async () => {
         Ask a question
       </p>
 
-      <AskQuestionForm isEdit={false} mongoUserId={JSON.stringify(user?._id)} />
+      <AskQuestionForm isEdit={false} mongoUserId={user?._id} />
     </div>
   );
 };

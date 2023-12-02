@@ -20,6 +20,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Tag from "../Tag";
+import { useTheme } from "next-themes";
 
 interface askQuestionFormProps {
   isEdit: boolean;
@@ -28,6 +29,7 @@ interface askQuestionFormProps {
 
 const AskQuestionForm = ({ isEdit, mongoUserId }: askQuestionFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { theme } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
   const editorRef = useRef(null);
@@ -190,7 +192,7 @@ const AskQuestionForm = ({ isEdit, mongoUserId }: askQuestionFormProps) => {
                     initialValue=""
                     onBlur={field.onBlur}
                     onEditorChange={(content) => field.onChange(content)}
-                    onSubmit={(e) => (e.target.value = "")}
+                    // onSubmit={(e) => (e.target.value = "")}
                     init={{
                       height: 360,
                       menubar: false,
@@ -218,6 +220,8 @@ const AskQuestionForm = ({ isEdit, mongoUserId }: askQuestionFormProps) => {
                         "removeformat",
                       content_style:
                         "body { font-family:intel; font-size:16px } ",
+                      skin: theme === "dark" ? "oxide-dark" : "oxide",
+                      content_css: theme === "dark" ? "dark" : "light",
                     }}
                   />
                 </FormControl>
