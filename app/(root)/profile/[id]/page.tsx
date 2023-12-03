@@ -1,13 +1,14 @@
 /* eslint-disable tailwindcss/classnames-order */
-import { GetUserInfo, getUserById } from "@/lib/actions/users-action ";
+import { GetUserInfo } from "@/lib/actions/users-action ";
 import { getFormattedDate } from "@/lib/utils";
 import Image from "next/image";
 
 const ProfileIdPage = async ({ params }: { params: { id: string } }) => {
-  const { user, questionCount, answerCount } = await GetUserInfo({
+  const { user } = await GetUserInfo({
     userId: params.id,
   });
   console.log(user);
+
 
   return (
     <div className="flex flex-col w-full">
