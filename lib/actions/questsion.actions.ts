@@ -11,6 +11,7 @@ import {
   GetQuestionsParams,
   QuestionVoteParams,
 } from "./types";
+import { redirect } from "next/navigation";
 
 export async function createQuestion(params: CreateQuestionParams) {
   try {
@@ -111,6 +112,13 @@ export async function UpVoteQuestion(params: QuestionVoteParams) {
 
     const { hasUpVoted, hasDownVoted, questionId, userId, path } = params;
 
+    const user = await User.findById(userId);
+
+    if (!user) {
+      redirect("/sign-in");
+      throw new Error("user not found");
+    }
+
     let updateQuery = {};
 
     if (hasUpVoted) {
@@ -142,6 +150,13 @@ export async function DownVoteQuestion(params: QuestionVoteParams) {
     connectDB();
 
     const { hasDownVoted, hasUpVoted, questionId, path, userId } = params;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      redirect("/sign-in");
+      throw new Error("user not found");
+    }
 
     let updateQuery = {};
 

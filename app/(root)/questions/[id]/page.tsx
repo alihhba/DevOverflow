@@ -50,12 +50,12 @@ const QuestionsIdPage = async ({ params, searchParams }: any) => {
           <div className="ml-auto">
             <Votes
               type="question"
-              userId={mongoUser[0]._id}
+              userId={mongoUser[0] && mongoUser[0]._id}
               itemId={question._id}
               upVotes={question.upVotes.length}
-              hasUpVote={question.upVotes.includes(mongoUser[0]._id)}
+              hasUpVote={question.upVotes.includes(mongoUser[0] && mongoUser[0]._id)}
               downVotes={question.downVotes.length}
-              hasDownVote={question.downVotes.includes(mongoUser[0]._id)}
+              hasDownVote={question.downVotes.includes(mongoUser[0] && mongoUser[0]._id)}
               saved={mongoUser[0]?.saved?.includes(question._id)}
             />
           </div>
@@ -131,12 +131,12 @@ const QuestionsIdPage = async ({ params, searchParams }: any) => {
             />
           </div>
 
-          <AllAnswers questionId={question._id} userId={mongoUser[0]._id!} />
+          <AllAnswers questionId={question._id} userId={mongoUser[0] && mongoUser[0]._id!} />
 
           <Line />
 
           <AnswerForm
-            author={JSON.stringify(mongoUser[0]._id)}
+            author={JSON.stringify(mongoUser[0] && mongoUser[0]._id)}
             question={JSON.stringify(question._id)}
           />
         </div>

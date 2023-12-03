@@ -4,13 +4,14 @@ import {
   DownVoteQuestion,
   UpVoteQuestion,
 } from "@/lib/actions/questsion.actions";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname, useRouter } from "next/navigation";
 import { BiSolidUpArrow, BiUpArrow } from "react-icons/bi";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { DownVoteAnswer, UpVoteAnswer } from "@/lib/actions/answer-action";
 import { AddQuestionToCollection } from "@/lib/actions/users-action ";
+import { FaRegStar, FaStar } from "react-icons/fa";
 
 interface props {
   type: string;
@@ -36,12 +37,14 @@ const Votes = ({
   const pathname = usePathname();
   const [loadingUp, setLoadingUp] = useState(false);
   const [loadingDown, setLoadingDown] = useState(false);
+  const [loadingStar, setLoadingStar] = useState(false);
+  const router = useRouter();
 
   const handleVote = async (action: string) => {
     try {
-      if (!userId) return;
+      if (!userId) router.push("/sign-in");
 
-      if (type === "question") {
+      if (type === "question" && userId) {
         if (action === "upVote") {
           setLoadingUp(true);
           await UpVoteQuestion({
@@ -62,7 +65,7 @@ const Votes = ({
           });
         }
       }
-      if (type === "answer") {
+      if (type === "answer" && userId) {
         if (action === "upVote") {
           setLoadingUp(true);
           await UpVoteAnswer({
@@ -95,19 +98,44 @@ const Votes = ({
 
   const collectionHandlelr = async () => {
     try {
-      await AddQuestionToCollection({
-        path: pathname,
-        userId,
-        questionId: itemId,
-      });
+      if (!userId) {
+        router.push("/sign-in");
+      } else {
+        setLoadingStar(true);
+        await AddQuestionToCollection({
+          path: pathname,
+          userId,
+          questionId: itemId,
+        });
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setTimeout(() => {
+        setLoadingStar(false);
+      }, 1000);
     }
   };
   return (
-    <div className="flex items-center gap-2">
-      {hasUpVote ? (
-        loadingUp ? (
+    <div className="flex items-center gap-2 ">
+      <div className="flex items-center gap-2 dark:bg-dark-200 bg-light-800 px-2 py-1 rounded-lg">
+        {hasUpVote ? (
+          loadingUp ? (
+            <Loader2
+              className="w-3 h-3 animate-spin text-dark-200
+        dark:text-light-800"
+            />
+          ) : (
+            <Button
+              onClick={() => handleVote("upVote")}
+              className="cursor-pointer p-1 px-2"
+              h-10
+              w-10
+            >
+              <BiSolidUpArrow />
+            </Button>
+          )
+        ) : loadingUp ? (
           <Loader2
             className="w-3 h-3 animate-spin text-dark-200
         dark:text-light-800"
@@ -115,56 +143,55 @@ const Votes = ({
         ) : (
           <Button
             onClick={() => handleVote("upVote")}
-            className="cursor-pointer p-1"
+            className="cursor-pointer p-1 px-2"
           >
-            <BiSolidUpArrow />
+            <BiUpArrow />
           </Button>
-        )
-      ) : loadingUp ? (
-        <Loader2
-          className="w-3 h-3 animate-spin text-dark-200
-        dark:text-light-800"
-        />
-      ) : (
-        <Button
-          onClick={() => handleVote("upVote")}
-          className="cursor-pointer p-1"
-        >
-          <BiUpArrow />
-        </Button>
-      )}
+        )}
 
-      <div className="">{upVotes - downVotes}</div>
-      {hasDownVote ? (
-        loadingDown ? (
+        <div className="">{upVotes - downVotes}</div>
+        {hasDownVote ? (
+          loadingDown ? (
+            <Loader2
+              className="w-3 h-3 animate-spin text-dark-200
+         dark:text-light-800"
+            />
+          ) : (
+            <Button
+              onClick={() => handleVote("downVote")}
+              className="rotate-180 cursor-pointer  p-1 px-2"
+            >
+              <BiSolidUpArrow />
+            </Button>
+          )
+        ) : loadingDown ? (
           <Loader2
             className="w-3 h-3 animate-spin text-dark-200
-         dark:text-light-800"
+        dark:text-light-800"
           />
         ) : (
           <Button
             onClick={() => handleVote("downVote")}
-            className="rotate-180 cursor-pointer  p-1"
+            className="rotate-180 cursor-pointer p-1 px-2"
           >
-            <BiSolidUpArrow />
+            <BiUpArrow />
           </Button>
-        )
-      ) : loadingDown ? (
-        <Loader2
-          className="w-3 h-3 animate-spin text-dark-200
-        dark:text-light-800"
-        />
-      ) : (
-        <Button
-          onClick={() => handleVote("downVote")}
-          className="rotate-180 cursor-pointer p-1"
-        >
-          <BiUpArrow />
-        </Button>
-      )}
+        )}
+      </div>
 
       {type === "question" && (
-        <Button  onClick={() => collectionHandlelr()}>star</Button>
+        <Button className="p-1 px-2 ml-2" onClick={() => collectionHandlelr()}>
+          {loadingStar ? (
+            <Loader2
+              className="w-3 h-3 animate-spin text-dark-200
+        dark:text-light-800"
+            />
+          ) : saved ? (
+            <FaStar />
+          ) : (
+            <FaRegStar />
+          )}
+        </Button>
       )}
     </div>
   );

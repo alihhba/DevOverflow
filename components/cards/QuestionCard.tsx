@@ -53,7 +53,7 @@ const QuestionCard = ({
       </div>
       {/* metrics */}
 
-      <div className="mt-6 flex w-full justify-between max-md:flex-col max-md:gap-2">
+      <div className="mt-3 flex w-full justify-between max-md:flex-col max-md:gap-2">
         <Metrics
           value={author.name}
           title={getTimeStamp(createdAt)}
