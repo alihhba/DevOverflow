@@ -4,6 +4,7 @@ import React from "react";
 import ParseHtml from "../ParseHtml";
 import Link from "next/link";
 import Votes from "../Votes";
+import Line from "../Line";
 
 interface props {
   id: string;
@@ -71,6 +72,8 @@ const AnswerCard = ({
       <div className="md:mt-6 mt-3">
         <ParseHtml data={content} />
       </div>
+
+      <Line />
     </div>
   );
 };

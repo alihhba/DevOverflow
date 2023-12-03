@@ -4,14 +4,15 @@ import {
   DownVoteQuestion,
   UpVoteQuestion,
 } from "@/lib/actions/questsion.actions";
-import { redirect, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { BiSolidUpArrow, BiUpArrow } from "react-icons/bi";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { DownVoteAnswer, UpVoteAnswer } from "@/lib/actions/answer-action";
 import { AddQuestionToCollection } from "@/lib/actions/users-action ";
 import { FaRegStar, FaStar } from "react-icons/fa";
+import { ViewQuestion } from "@/lib/actions/interaciton-actions";
 
 interface props {
   type: string;
@@ -39,6 +40,7 @@ const Votes = ({
   const [loadingDown, setLoadingDown] = useState(false);
   const [loadingStar, setLoadingStar] = useState(false);
   const router = useRouter();
+  const hasRun = useRef(false);
 
   const handleVote = async (action: string) => {
     try {
@@ -116,6 +118,19 @@ const Votes = ({
       }, 1000);
     }
   };
+
+  useEffect(() => {
+    if (type === "question" && !hasRun.current) {
+      ViewQuestion({
+        // eslint-disable-next-line no-unneeded-ternary
+        userId: userId ? userId : undefined,
+        questionId: itemId,
+      });
+
+      hasRun.current = true;
+    }
+  }, [itemId, userId, type]);
+
   return (
     <div className="flex items-center gap-2 ">
       <div className="flex items-center gap-2 dark:bg-dark-200 bg-light-800 px-2 py-1 rounded-lg">
