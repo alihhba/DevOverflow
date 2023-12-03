@@ -1,8 +1,11 @@
-import React from "react";
-import Tag from "../Tag";
-import Link from "next/link";
-import Metrics from "../Metrics";
+/* eslint-disable tailwindcss/classnames-order */
+import { getUserById } from "@/lib/actions/users-action ";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
+import { auth } from "@clerk/nextjs";
+import Link from "next/link";
+import { FaStar } from "react-icons/fa";
+import Metrics from "../Metrics";
+import Tag from "../Tag";
 
 interface questionCardProps {
   id: string;
@@ -15,6 +18,7 @@ interface questionCardProps {
     _id: string;
     name: string;
     picture: string;
+    clerkId: string;
   };
   votes: Array<Object>;
   views: number;
@@ -22,7 +26,7 @@ interface questionCardProps {
   createdAt: Date;
 }
 
-const QuestionCard = ({
+const QuestionCard = async ({
   answers,
   author,
   createdAt,
@@ -32,8 +36,17 @@ const QuestionCard = ({
   views,
   votes,
 }: questionCardProps) => {
+  const { userId } = auth();
+
+  const user = await getUserById({ userId });
   return (
-    <div className="flex w-full flex-col gap-3.5 rounded-lg bg-light-900 p-5 drop-shadow-lg dark:bg-dark-200   dark:shadow-none md:px-12 md:py-9">
+    <div className="relative flex w-full flex-col gap-3.5 rounded-lg bg-light-900 p-5 drop-shadow-lg dark:bg-dark-200   dark:shadow-none md:px-12 md:py-9">
+      {user.saved.includes(id) && (
+        <div className="absolute top-3 right-3">
+          <FaStar />
+        </div>
+      )}
+
       <div className="flex w-full flex-col gap-2">
         <p className="small-regular text-dark-400 dark:text-light-400 md:hidden">
           {getTimeStamp(createdAt)}
@@ -58,7 +71,7 @@ const QuestionCard = ({
           value={author.name}
           title={getTimeStamp(createdAt)}
           imageUrl={author.picture}
-          href={`/profile/${author._id}`}
+          href={`/profile/${author.clerkId}`}
           isAuthor
           titleClassName="max-md:hidden"
           valueClassName="base-semibold"

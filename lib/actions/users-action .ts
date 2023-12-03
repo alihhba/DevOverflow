@@ -14,6 +14,7 @@ import {
 } from "./types";
 import Tag from "@/database/tag-schema";
 import { redirect } from "next/navigation";
+import Answer from "@/database/answer-model";
 
 export async function getUserById(params: any) {
   try {
@@ -26,6 +27,32 @@ export async function getUserById(params: any) {
     });
 
     return user;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function GetUserInfo(params: any) {
+  try {
+    connectDB();
+
+    const { userId } = params;
+
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      console.log("user not found");
+    }
+
+    const questionCount = await Question.countDocuments({ author: user._id });
+    const answerCount = await Answer.countDocuments({ author: user._id });
+
+    return {
+      user,
+      questionCount,
+      answerCount,
+    };
   } catch (error) {
     console.log(error);
     throw error;

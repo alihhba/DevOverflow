@@ -14,7 +14,7 @@ const collectionPage = async () => {
   }
 
   const result = await GetSavedQuestion({ clerkId });
-  console.log(result.questions.saved);
+  
 
   return (
     <div className="flex w-full flex-col">

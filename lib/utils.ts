@@ -33,7 +33,7 @@ export const getTimeStamp = (createdAt: Date): string => {
       day: "numeric",
       year: "numeric",
     });
-  } else  if (days >= 2) {
+  } else if (days >= 2) {
     return `${days} days ago`;
   } else if (days === 1) {
     return `1 day ago`;
@@ -45,9 +45,22 @@ export const getTimeStamp = (createdAt: Date): string => {
     return `${minutes} minutes ago`;
   } else if (minutes === 1) {
     return `1 minute ago`;
-  }else {
+  } else {
     return "Just now";
   }
+};
+
+export const getFormattedDate = (num: Date): string => {
+  const isoDate = num;
+  const date = new Date(isoDate);
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const formattedDate = date.toLocaleDateString("en-US", options);
+
+  return formattedDate;
 };
 
 export const formatNumber = (num: number): string => {
