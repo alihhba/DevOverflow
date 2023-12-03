@@ -12,7 +12,8 @@ const LeftSidebar = () => {
     <div className="sticky inset-y-0 left-0 flex h-screen w-fit flex-col overflow-y-scroll border-r  bg-light-900 pb-10 pt-32 dark:border-dark-300 dark:bg-dark-200 max-md:hidden">
       <div className="flex w-full flex-col gap-2 px-2 lg:px-6">
         {sidebarLinks.map((item): any => {
-          const isActive = item.route.includes(pathName) && item.route === pathName;
+          const isActive =
+            item.route.includes(pathName) && pathName.startsWith(item.route);
           return (
             <Link
               key={item.route}
@@ -37,8 +38,8 @@ const LeftSidebar = () => {
       </div>
 
       <div className="mt-auto flex  flex-col gap-2 px-6">
-        <LoginButton mobile={false}/>
-        <SignupButton mobile={false}/>
+        <LoginButton mobile={false} />
+        <SignupButton mobile={false} />
       </div>
     </div>
   );
