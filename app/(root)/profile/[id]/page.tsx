@@ -7,6 +7,7 @@ const ProfileIdPage = async ({ params }: { params: { id: string } }) => {
   const { user } = await GetUserInfo({
     userId: params.id,
   });
+  
   console.log(user);
 
 
