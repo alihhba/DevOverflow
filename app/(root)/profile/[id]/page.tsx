@@ -8,7 +8,7 @@ const ProfileIdPage = async ({ params }: { params: { id: string } }) => {
     userId: params.id,
   });
 
-  console.log(user);*
+  console.log(user);
 
 
   return (
