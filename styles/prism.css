@@ -27,7 +27,7 @@ code[class*="language-"] ::-moz-selection,
 pre[class*="language-"]::selection,
 pre[class*="language-"] ::selection,
 code[class*="language-"]::selection,
-code[class*="language-"] ::selection {
+code[class*="language-"]::selection {
   color: inherit;
   background: #151821;
   text-shadow: none;

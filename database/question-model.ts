@@ -19,7 +19,6 @@ const QuestionSchema = new Schema({
   },
   content: {
     type: String,
-    required: true,
   },
   tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
   views: {

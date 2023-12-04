@@ -28,7 +28,7 @@ const Home = async () => {
         />
       </div>
 
-      <div className="mt-10 flex w-full flex-col gap-5">
+      <div className="mt-5 flex w-full flex-col gap-3">
         {result.questions.length > 0 ? (
           result.questions.map((q) => (
             <QuestionCard
@@ -41,6 +41,7 @@ const Home = async () => {
               views={q.views}
               answers={q.answers}
               createdAt={q.createdAt}
+              content={q.content}
             />
           ))
         ) : (

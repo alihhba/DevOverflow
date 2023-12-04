@@ -1,17 +1,20 @@
 "use server";
 
+import Answer from "@/database/answer-model";
+import Interaction from "@/database/interaction-model";
 import Question from "@/database/question-model";
 import Tag from "@/database/tag-schema";
 import User from "@/database/user-schema";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { connectDB } from "../mongoose";
 import {
   CreateQuestionParams,
+  DeleteQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
   QuestionVoteParams,
 } from "./types";
-import { redirect } from "next/navigation";
 
 export async function createQuestion(params: CreateQuestionParams) {
   try {
@@ -182,6 +185,31 @@ export async function DownVoteQuestion(params: QuestionVoteParams) {
     if (!question) {
       throw new Error("question not found");
     }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function DeleteQuestion(params: DeleteQuestionParams) {
+  try {
+    connectDB();
+    const { path, questionId } = params;
+
+    const question = await Question.findById(questionId);
+
+    if (!question) {
+      console.log("question not found");
+      throw new Error("question not found");
+    }
+
+    await Question.findByIdAndDelete(question);
+    await Answer.deleteMany({ question: questionId });
+    await Tag.updateMany({}, { $pull: { questions: questionId } });
+    await Tag.deleteMany({ questions: { $size: 0 } });
+    await Interaction.deleteMany({ question: questionId });
 
     revalidatePath(path);
   } catch (error) {

@@ -36,7 +36,7 @@ const collectionPage = async () => {
         />
       </div>
 
-      <div className="mt-10 flex w-full flex-col gap-5">
+      <div className="mt-5 flex w-full flex-col gap-5">
         {result.questions.saved.length > 0 ? (
           result.questions.saved.map((q: any) => (
             <QuestionCard
@@ -49,6 +49,8 @@ const collectionPage = async () => {
               views={q.views}
               answers={q.answers}
               createdAt={q.createdAt}
+              content={q.content}
+
             />
           ))
         ) : (

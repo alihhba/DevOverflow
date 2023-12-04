@@ -1,15 +1,15 @@
 /* eslint-disable tailwindcss/classnames-order */
 import { getUserById } from "@/lib/actions/users-action ";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
-import { SignedIn, auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa";
 import Metrics from "../Metrics";
 import Tag from "../Tag";
-import EditDeleteAnsweQuestion from "../EditDeleteAnsweQuestion";
 
-interface questionCardProps {
+interface props {
   id: string;
+  answerId: string;
   title: string;
   content: string;
   tags: {
@@ -28,54 +28,36 @@ interface questionCardProps {
   createdAt?: Date;
 }
 
-const QuestionCard = async ({
+const AnswerStatCard = async ({
   answers,
   author,
   createdAt,
   id,
+  answerId,
   tags,
   title,
   views,
   votes,
   content,
-}: questionCardProps) => {
+}: props) => {
   const { userId } = auth();
-  const showActionBtn = author.clerkId && author.clerkId === userId;
 
   const user = await getUserById({ userId });
+
   return (
     <div className="relative flex w-full flex-col gap-2 rounded-lg bg-light-900 p-3 drop-shadow-lg dark:bg-dark-200   dark:shadow-none md:px-5 md:py-4">
-      {/* saved & delete & update buttons */}
-      <div className="absolute top-3 right-3 max-md:hidden">
-        <div className="flex items-center gap-3">
-          <SignedIn>
-            {showActionBtn && (
-              <EditDeleteAnsweQuestion type="question" id={id} />
-            )}
-          </SignedIn>
-          {user?.saved.includes(id) && <FaStar />}
+      {user?.saved.includes(id) && (
+        <div className="absolute top-3 right-3">
+          <FaStar />
         </div>
-      </div>
+      )}
 
       <div className="flex w-full flex-col gap-2">
-        <div className="flex items-center justify-between">
-          <p className="small-regular text-dark-400 dark:text-light-400 md:hidden">
-            {getTimeStamp(createdAt!)}
-          </p>
-          {/* saved & delete & update buttons */}
-          <div className="flex  md:hidden">
-            <div className="flex items-center gap-x-3">
-              <SignedIn>
-                {showActionBtn && (
-                  <EditDeleteAnsweQuestion type="question" id={id} />
-                )}
-              </SignedIn>
-              {user?.saved.includes(id) && <FaStar />}
-            </div>
-          </div>
-        </div>
+        <p className="small-regular text-dark-400 dark:text-light-400 md:hidden">
+          {getTimeStamp(createdAt!)}
+        </p>
         {/* title */}
-        <Link href={`/questions/${id}`}>
+        <Link href={`/questions/${id}/#${answerId}`}>
           <p className="md:h3-semibold base-medium  line-clamp-2 md:leading-8 lg:line-clamp-3">
             {title}
           </p>
@@ -124,4 +106,4 @@ const QuestionCard = async ({
   );
 };
 
-export default QuestionCard;
+export default AnswerStatCard;

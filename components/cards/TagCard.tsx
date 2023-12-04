@@ -15,7 +15,7 @@ const TagCard = ({ tag }: tagCardParams) => {
   return (
     <Link
       href={`/tags/${tag._id}`}
-      className="p-7 flex flex-col rounded-lg bg-light-900 dark:bg-dark-200 shadow-lg dark:shadow-none"
+      className="p-4 flex flex-col rounded-lg bg-light-900 dark:bg-dark-200 shadow-lg dark:shadow-none"
     >
       <Tag id={tag._id} title={tag.name} />
 

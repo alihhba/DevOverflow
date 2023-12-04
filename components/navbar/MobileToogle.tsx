@@ -51,7 +51,7 @@ const MobileToogle = () => {
               <SheetClose asChild key={item.label} className="w-full">
                 <Link
                   href={item.route}
-                  className={`flex w-full items-center justify-start gap-4 rounded-lg p-4 ${
+                  className={`flex w-full items-center justify-start gap-3 rounded-lg p-2 ${
                     isActive
                       ? "bg-primary-500 text-light-900"
                       : "bg-transparent  text-dark-300 dark:text-light-900"

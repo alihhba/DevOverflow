@@ -28,7 +28,7 @@ const CommunityPage = async () => {
         />
       </div>
 
-      <section className="mt-12 flex w-full flex-wrap gap-4">
+      <section className="mt-5 flex w-full flex-wrap gap-4">
         {result.users.length > 0 ? (
           <div className=" grid-col-auto-fill w-full  gap-4  ">
             {result.users.map((user) => (

@@ -133,7 +133,7 @@ const Votes = ({
 
   return (
     <div className="flex items-center gap-2 ">
-      <div className="flex items-center gap-2 dark:bg-dark-200 bg-light-800 px-2 py-1 rounded-lg">
+      <div className="flex items-center gap-2 dark:bg-dark-200 bg-light-800 px-1 md:px-2  md:py-1 rounded-lg">
         {hasUpVote ? (
           loadingUp ? (
             <Loader2

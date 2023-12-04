@@ -1,5 +1,6 @@
 /* eslint-disable tailwindcss/classnames-order */
 import AllAnswers from "@/components/AllAnswers";
+import EditDeleteAnsweQuestion from "@/components/EditDeleteAnsweQuestion";
 import Filter from "@/components/Filter";
 import Line from "@/components/Line";
 import Metrics from "@/components/Metrics";
@@ -33,35 +34,39 @@ const QuestionsIdPage = async ({ params, searchParams }: any) => {
         {/* name and vote */}
         <div className="flex md:items-center max-md:flex-col-reverse  gap-3">
           <Link
-            href={`/profile/${question.author.clerkId}`}
+            href={`/profile/${question?.author?.clerkId}`}
             className="flex items-center gap-2 justify-start"
           >
             <Image
-              src={question.author.picture}
+              src={question?.author.picture}
               width={22}
               height={22}
               alt="userImage"
               className="rounded-full  min-w-[22px] max-w-[22px] max-h-[22px] min-h-[22px] object-cover"
             />
             <p className="text-dark-100 dark:text-light-850">
-              {question.author.name}
+              {question?.author.name}
             </p>
           </Link>
           <div className="ml-auto">
-            <Votes
-              type="question"
-              userId={mongoUser[0] && mongoUser[0]._id}
-              itemId={question._id}
-              upVotes={question.upVotes.length}
-              hasUpVote={question.upVotes.includes(
-                mongoUser[0] && mongoUser[0]._id
-              )}
-              downVotes={question.downVotes.length}
-              hasDownVote={question.downVotes.includes(
-                mongoUser[0] && mongoUser[0]._id
-              )}
-              saved={mongoUser[0]?.saved?.includes(question._id)}
-            />
+            {question?.author.id === mongoUser[0]?.id ? (
+              <EditDeleteAnsweQuestion id={question.id} type="question"  goPath={'/'}/>
+            ) : (
+              <Votes
+                type="question"
+                userId={mongoUser[0] && mongoUser[0]._id}
+                itemId={question._id}
+                upVotes={question.upVotes.length}
+                hasUpVote={question.upVotes.includes(
+                  mongoUser[0] && mongoUser[0]._id
+                )}
+                downVotes={question.downVotes.length}
+                hasDownVote={question.downVotes.includes(
+                  mongoUser[0] && mongoUser[0]._id
+                )}
+                saved={mongoUser[0]?.saved?.includes(question._id)}
+              />
+            )}
           </div>
         </div>
 

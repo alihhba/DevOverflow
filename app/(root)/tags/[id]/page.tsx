@@ -36,7 +36,7 @@ const collectionPage = async ({ params, searchParams }: URLProps) => {
         />
       </div>
 
-      <div className="mt-10 flex w-full flex-col gap-5">
+      <div className="mt-5 flex w-full flex-col gap-5">
         {result.questions.length > 0 ? (
           result.questions.map((q: any) => (
             <QuestionCard
@@ -49,6 +49,7 @@ const collectionPage = async ({ params, searchParams }: URLProps) => {
               views={q.views}
               answers={q.answers}
               createdAt={q.createdAt}
+              content={q.content}
             />
           ))
         ) : (

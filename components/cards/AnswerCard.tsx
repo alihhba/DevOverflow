@@ -1,10 +1,14 @@
 /* eslint-disable tailwindcss/classnames-order */
+
 import Image from "next/image";
 import React from "react";
 import ParseHtml from "../ParseHtml";
 import Link from "next/link";
 import Votes from "../Votes";
 import Line from "../Line";
+import { auth } from "@clerk/nextjs";
+import User from "@/database/user-schema";
+import EditDeleteAnsweQuestion from "../EditDeleteAnsweQuestion";
 
 interface props {
   id: string;
@@ -21,7 +25,7 @@ interface props {
   downVotes: Array<Object>;
 }
 
-const AnswerCard = ({
+const AnswerCard = async ({
   author,
   content,
   createdAt,
@@ -30,6 +34,10 @@ const AnswerCard = ({
   userId,
   id,
 }: props) => {
+  const { userId: clerkId } = auth();
+
+  const mongoUser = await User.findOne({ clerkId });
+
   return (
     <div className="flex flex-col w-full mt-7">
       {/* author & votes */}
@@ -43,7 +51,7 @@ const AnswerCard = ({
               src={author.picture}
               width={24}
               height={24}
-              alt="userImage"
+              alt=" = await User.Image"
               className="rounded-full min-w-[24px] min-h-[24px] max-w-[24px] max-h-[24px] object-cover"
             />
             <p className="body-semibold  text-dark-300 dark:text-light-700">
@@ -57,15 +65,19 @@ const AnswerCard = ({
         </div>
 
         <div className="max-md:ml-auto ">
-          <Votes
-            type="answer"
-            userId={userId}
-            itemId={id}
-            upVotes={upVotes.length}
-            hasUpVote={upVotes.includes(userId)}
-            downVotes={downVotes.length}
-            hasDownVote={downVotes.includes(userId)}
-          />
+          {mongoUser?.id === author?._id.toString() ? (
+            <EditDeleteAnsweQuestion type="answer" id={id} />
+          ) : (
+            <Votes
+              type="answer"
+              userId={userId}
+              itemId={id}
+              upVotes={upVotes.length}
+              hasUpVote={upVotes.includes(userId)}
+              downVotes={downVotes.length}
+              hasDownVote={downVotes.includes(userId)}
+            />
+          )}
         </div>
       </div>
       {/* content */}

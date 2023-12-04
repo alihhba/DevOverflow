@@ -1,20 +1,21 @@
 "use server";
 
+import Answer from "@/database/answer-model";
 import Question from "@/database/question-model";
+import Tag from "@/database/tag-schema";
 import User from "@/database/user-schema";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { connectDB } from "../mongoose";
 import {
   CreateUserParams,
   DeleteUserParams,
   GetAllUsersParams,
   GetSavedQuestionsParams,
+  GetUserStatsParams,
   ToggleSaveQuestionParams,
   UpdateUserParams,
 } from "./types";
-import Tag from "@/database/tag-schema";
-import { redirect } from "next/navigation";
-import Answer from "@/database/answer-model";
 
 export async function getUserById(params: any) {
   try {
@@ -195,6 +196,70 @@ export async function GetSavedQuestion(params: GetSavedQuestionsParams) {
     }
 
     return { questions: user };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function GetUserTopQuestions(params: GetUserStatsParams) {
+  try {
+    connectDB();
+    const { userId } = params;
+
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      console.log("user not found");
+      throw new Error("user not found");
+    }
+
+    const questionsCount = await Question.countDocuments({ author: user.id });
+
+    const questions = await Question.find({ author: user.id })
+      .sort({
+        views: -1,
+        upVotes: -1,
+      })
+      .populate("author", "_id picture clerkId name")
+      .populate("tags", "_id name");
+
+    return { questionsCount, questions };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function GetUserAnswers(params: GetUserStatsParams) {
+  try {
+    connectDB();
+
+    const { userId } = params;
+
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      console.log("user not found");
+      throw new Error("user not found");
+    }
+
+    const answersCount = await Answer.countDocuments({ author: user.id });
+
+    const answers = await Answer.find({ author: user.id })
+      .sort({ upVotes: -1 })
+      .populate("author", "_id name clerkId picture")
+      .populate({
+        path: "question",
+        select: "-content",
+        model: Question,
+        populate: [
+          { path: "tags", model: Tag, select: "_id name" },
+          { path: "author", model: User, select: "name _id clerkId picture" },
+        ],
+      });
+
+    return { answers, answersCount };
   } catch (error) {
     console.log(error);
     throw error;

@@ -8,8 +8,10 @@ import { connectDB } from "../mongoose";
 import {
   AnswerVoteParams,
   CreateAnswerParams,
+  DeleteAnswerParams,
   GetAnswersParams,
 } from "./types.d";
+import Interaction from "@/database/interaction-model";
 
 export async function CreateAnswer(params: CreateAnswerParams) {
   try {
@@ -114,6 +116,33 @@ export async function DownVoteAnswer(params: AnswerVoteParams) {
     if (!answer) {
       throw new Error("answer not found");
     }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function DeleteAnswer(params: DeleteAnswerParams) {
+  try {
+    connectDB();
+
+    const { path, answerId } = params;
+
+    const answer = await Answer.findById(answerId);
+
+    if (!answer) {
+      console.log("answer not found");
+      throw new Error("answer not found");
+    }
+
+    await Answer.findByIdAndDelete(answerId);
+    await Question.updateMany(
+      { _id: answer.question },
+      { $pull: { answers: answerId } }
+    );
+    await Interaction.deleteMany({ answer: answerId });
 
     revalidatePath(path);
   } catch (error) {
