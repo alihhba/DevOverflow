@@ -46,7 +46,7 @@ const QuestionCard = async ({
   return (
     <div className="relative flex w-full flex-col gap-2 rounded-lg bg-light-900 p-3 drop-shadow-lg dark:bg-dark-200   dark:shadow-none md:px-5 md:py-4">
       {/* saved & delete & update buttons */}
-      <div className="absolute top-3 right-3 max-md:hidden">
+      <div className="absolute top-2 right-2 max-md:hidden">
         <div className="flex items-center gap-3">
           <SignedIn>
             {showActionBtn && (

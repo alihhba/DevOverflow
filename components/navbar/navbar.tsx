@@ -22,12 +22,12 @@ const Navbar = () => {
         </p>
       </Link>
 
-      <GlobalSearch
+      {/* <GlobalSearch
         placeholder="Search Globally"
         className="max-w-[600px]"
         iconSide="left"
         mobile
-      />
+      /> */}
 
       <div className="flex-between gap-5">
         <ThemeToggleButton />

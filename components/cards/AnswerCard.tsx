@@ -70,8 +70,8 @@ const AnswerCard = async ({
           ) : (
             <Votes
               type="answer"
-              userId={userId}
-              itemId={id}
+              userId={userId.toString()}
+              itemId={id.toString()}
               upVotes={upVotes.length}
               hasUpVote={upVotes.includes(userId)}
               downVotes={downVotes.length}

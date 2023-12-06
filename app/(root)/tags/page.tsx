@@ -5,8 +5,8 @@ import GlobalSearch from "@/components/search/GlobalSearch";
 import { TagFilters } from "@/constant/filters";
 import { GetAllTags } from "@/lib/actions/tag-actions";
 
-const TagsPage = async () => {
-  const result = await GetAllTags({});
+const TagsPage = async ({ searchParams }: any) => {
+  const result = await GetAllTags({ searchQuery: searchParams.q });
 
   return (
     <div className="flex w-full flex-col">

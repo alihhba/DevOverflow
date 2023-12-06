@@ -138,7 +138,7 @@ const Votes = ({
           loadingUp ? (
             <Loader2
               className="w-3 h-3 animate-spin text-dark-200
-        dark:text-light-800"
+        dark:text-light-800 m-2"
             />
           ) : (
             <Button
@@ -153,7 +153,7 @@ const Votes = ({
         ) : loadingUp ? (
           <Loader2
             className="w-3 h-3 animate-spin text-dark-200
-        dark:text-light-800"
+        dark:text-light-800 m-2"
           />
         ) : (
           <Button
@@ -169,7 +169,7 @@ const Votes = ({
           loadingDown ? (
             <Loader2
               className="w-3 h-3 animate-spin text-dark-200
-         dark:text-light-800"
+         dark:text-light-800 m-2"
             />
           ) : (
             <Button
@@ -182,7 +182,7 @@ const Votes = ({
         ) : loadingDown ? (
           <Loader2
             className="w-3 h-3 animate-spin text-dark-200
-        dark:text-light-800"
+        dark:text-light-800 m-2"
           />
         ) : (
           <Button

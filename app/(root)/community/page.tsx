@@ -5,8 +5,8 @@ import GlobalSearch from "@/components/search/GlobalSearch";
 import { UserFilters } from "@/constant/filters";
 import { GetAllUsers } from "@/lib/actions/users-action ";
 
-const CommunityPage = async () => {
-  const result = await GetAllUsers({});
+const CommunityPage = async ({ searchParams }: any) => {
+  const result = await GetAllUsers({ searchQuery: searchParams.q });
   // console.log(result.users);
   return (
     <div className="flex w-full flex-col">

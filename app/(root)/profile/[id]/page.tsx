@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { GetUserInfo } from "@/lib/actions/users-action ";
 import { getFormattedDate } from "@/lib/utils";
 import { auth } from "@clerk/nextjs";
-import { CalendarDays, MapPin } from "lucide-react";
+import { CalendarDays, Link2, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -39,19 +39,25 @@ const ProfileIdPage = async ({ params }: { params: { id: string } }) => {
             <p className="small-regular md:body-regular max-md:text-center">
               @{user.username}
             </p>
-            <div className="flex items-center  md:gap-5 md:mt-5">
+            <div className="flex items-center  md:gap-5 md:mt-5 gap-2 mt-2">
+            {user.portfolioWeb && (
+                <p className="flex small-regular md:body-regular items-center max-md:text-center">
+                  <Link2 className="w-4 h-4 mr-0.5" />
+                  {user.portfolioWeb}
+                </p>
+              )}
               {user.location && (
                 <p className="flex small-regular md:body-regular items-center max-md:text-center">
-                  <MapPin className="w-4 h-4 mr-1" />
+                  <MapPin className="w-4 h-4 mr-0.5" />
                   {user.location}
                 </p>
               )}
               <p className="flex small-regular md:body-regular items-center max-md:justify-center max-md:mx-auto max-md:text-center">
-                <CalendarDays className="w-4 h-4 mr-1" />
+                <CalendarDays className="w-4 h-4 mr-0.5" />
                 Joined {getFormattedDate(user.joinedAt)}
               </p>
             </div>
-            {user.bio && <p className="md:text-lg body-regular ">{user.bio}</p>}
+            {user.bio && <p className="md:text-lg body-regular max-md:justify-center max-md:mx-auto max-md:text-center pt-2">{user.bio}</p>}
           </div>
         </div>
 

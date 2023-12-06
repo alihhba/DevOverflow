@@ -6,15 +6,17 @@ import { HomePageFilters } from "@/constant/filters";
 import { GetSavedQuestion } from "@/lib/actions/users-action ";
 import { auth } from "@clerk/nextjs";
 
-const collectionPage = async () => {
+const collectionPage = async ({ searchParams }: any) => {
   const { userId: clerkId } = auth();
 
   if (!clerkId) {
     return null;
   }
 
-  const result = await GetSavedQuestion({ clerkId });
-  
+  const result = await GetSavedQuestion({
+    clerkId,
+    searchQuery: searchParams.q,
+  });
 
   return (
     <div className="flex w-full flex-col">
@@ -50,7 +52,6 @@ const collectionPage = async () => {
               answers={q.answers}
               createdAt={q.createdAt}
               content={q.content}
-
             />
           ))
         ) : (

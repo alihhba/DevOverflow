@@ -132,3 +132,11 @@ export interface GetUserStatsParams {
 export interface DeleteUserParams {
   clerkId: string;
 }
+
+export interface GetAnswerByIdParams {
+  id: string;
+}
+export interface UpdateAnswerParams {
+  id: string;
+  content: string;
+}

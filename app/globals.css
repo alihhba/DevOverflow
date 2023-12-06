@@ -9,6 +9,17 @@
 @import url("../styles/theme.css");
 body {
   font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* overflow: hidden; */
+
+  -webkit-tap-highlight-color: rgba(255, 23, 23, 0);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .grid-col-auto-fill {

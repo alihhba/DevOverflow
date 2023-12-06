@@ -11,7 +11,7 @@ export async function ViewQuestion(params: ViewQuestionParams) {
     connectDB();
 
     const { questionId, userId } = params;
-
+    
     await Question.findByIdAndUpdate(questionId, { $inc: { views: 1 } });
 
     if (userId) {

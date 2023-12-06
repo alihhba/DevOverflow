@@ -14,7 +14,7 @@ const collectionPage = async ({ params, searchParams }: URLProps) => {
     return null;
   }
 
-  const result = await GetQuestionByTagId({ tagId: params.id });
+  const result = await GetQuestionByTagId({ tagId: params.id , searchQuery: searchParams.q });
 
   return (
     <div className="flex w-full flex-col">

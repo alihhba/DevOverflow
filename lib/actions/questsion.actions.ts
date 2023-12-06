@@ -11,10 +11,12 @@ import { connectDB } from "../mongoose";
 import {
   CreateQuestionParams,
   DeleteQuestionParams,
+  EditQuestionParams,
   GetQuestionByIdParams,
   GetQuestionsParams,
   QuestionVoteParams,
 } from "./types";
+import { FilterQuery } from "mongoose";
 
 export async function createQuestion(params: CreateQuestionParams) {
   try {
@@ -69,7 +71,25 @@ export async function GetQuestions(params: GetQuestionsParams) {
   try {
     connectDB();
 
-    const questions = await Question.find({})
+    const { searchQuery } = params;
+
+    const words = searchQuery && searchQuery.trim().split(/\s+/);
+
+    const wordPatterns =
+      words && words.map((word) => new RegExp(`\\b${word}\\b`, "i"));
+
+    const query: FilterQuery<typeof Question> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { content: { $regex: new RegExp(searchQuery, "i") } },
+        { title: { $in: wordPatterns } },
+        { content: { $in: wordPatterns } },
+      ];
+    }
+
+    const questions = await Question.find(query)
       .populate({
         path: "tags",
         model: Tag,
@@ -212,6 +232,46 @@ export async function DeleteQuestion(params: DeleteQuestionParams) {
     await Interaction.deleteMany({ question: questionId });
 
     revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function EditQuestion(params: EditQuestionParams) {
+  try {
+    connectDB();
+
+    const { path, questionId, title, content } = params;
+
+    const question = await Question.findById(questionId);
+
+    if (!question) {
+      console.log("can not find question");
+    }
+
+    await Question.findOneAndUpdate(
+      { _id: questionId },
+      { title, content },
+      { new: true }
+    );
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function GetTopQuestions() {
+  try {
+    connectDB();
+
+    const questions = await Question.find({})
+      .sort({ views: -1, upVotes: -1 })
+      .limit(5);
+
+    return questions;
   } catch (error) {
     console.log(error);
     throw error;

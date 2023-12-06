@@ -9,7 +9,9 @@ import {
   AnswerVoteParams,
   CreateAnswerParams,
   DeleteAnswerParams,
+  GetAnswerByIdParams,
   GetAnswersParams,
+  UpdateAnswerParams,
 } from "./types.d";
 import Interaction from "@/database/interaction-model";
 
@@ -145,6 +147,40 @@ export async function DeleteAnswer(params: DeleteAnswerParams) {
     await Interaction.deleteMany({ answer: answerId });
 
     revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function GetAnswerById(params: GetAnswerByIdParams) {
+  try {
+    connectDB();
+
+    const { id } = params;
+
+    const answer = await Answer.findById(id);
+
+    return answer;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function EditAnswer(params: UpdateAnswerParams) {
+  try {
+    connectDB();
+
+    const { id, content } = params;
+
+    const answer = await Answer.findById(id);
+
+    answer.content = content;
+
+    answer.save();
+
+    return answer;
   } catch (error) {
     console.log(error);
     throw error;

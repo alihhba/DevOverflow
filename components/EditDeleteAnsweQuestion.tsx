@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { DeleteQuestion } from "@/lib/actions/questsion.actions";
 import { useState } from "react";
 import { DeleteAnswer } from "@/lib/actions/answer-action";
+import Link from "next/link";
 interface props {
   type: "question" | "answer";
   id: string;
@@ -22,12 +23,10 @@ const EditDeleteAnsweQuestion = ({ id, type, goPath }: props) => {
     try {
       if (type === "question") {
         setQuestionLoading(true);
-        console.log("1");
         await DeleteQuestion({ questionId: id, path: pathname });
         goPath && router.push(goPath);
       } else if (type === "answer") {
         setAnswerLoading(true);
-        console.log("1");
         await DeleteAnswer({ answerId: id, path: pathname });
       }
     } catch (error) {
@@ -42,10 +41,12 @@ const EditDeleteAnsweQuestion = ({ id, type, goPath }: props) => {
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <Button disabled={questionLoading || answerLoading} className="p-1">
-        <EditIcon className="w-4 h-4 " />
-      </Button>
+    <div className="flex items-center max-md:gap-1">
+      <Link href={type === 'question' ? `/questions/edit/${id}` : `/answers/edit/${id}`}>
+        <Button disabled={questionLoading || answerLoading} className="p-1">
+          <EditIcon className="w-4 h-4 " />
+        </Button>
+      </Link>
       {questionLoading || answerLoading ? (
         <Loader2 className="w-4 h-4 animate-spin" />
       ) : (

@@ -15,7 +15,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="mx-auto w-full md:max-w-7xl">{children}</div>
         </section>
 
-        <div className="hidden">
+        <div className="">
           <RightSidebar />
         </div>
       </div>

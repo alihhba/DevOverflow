@@ -4,6 +4,7 @@ import Answer from "@/database/answer-model";
 import Question from "@/database/question-model";
 import Tag from "@/database/tag-schema";
 import User from "@/database/user-schema";
+import { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { connectDB } from "../mongoose";
@@ -121,7 +122,18 @@ export async function GetAllUsers(params: GetAllUsersParams) {
   try {
     connectDB();
 
-    const users = await User.find({}).sort({ joinedAt: -1 });
+    const { searchQuery } = params;
+
+    const query: FilterQuery<typeof User> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { name: { $regex: new RegExp(searchQuery, "i") } },
+        { username: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
+
+    const users = await User.find(query).sort({ joinedAt: -1 });
 
     return { users };
   } catch (error) {
@@ -174,10 +186,20 @@ export async function GetSavedQuestion(params: GetSavedQuestionsParams) {
   try {
     connectDB();
 
-    const { clerkId } = params;
+    const { clerkId, searchQuery } = params;
+
+    const query: FilterQuery<typeof Question> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { content: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
 
     const user = await User.findOne({ clerkId }).populate({
       path: "saved",
+      match: query,
       options: {
         sort: { createdAt: -1 },
       },

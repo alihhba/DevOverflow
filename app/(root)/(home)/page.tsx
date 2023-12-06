@@ -5,8 +5,8 @@ import GlobalSearch from "@/components/search/GlobalSearch";
 import { HomePageFilters } from "@/constant/filters";
 import { GetQuestions } from "@/lib/actions/questsion.actions";
 
-const Home = async () => {
-  const result = await GetQuestions({});
+const Home = async ({ searchParams }: any) => {
+  const result = await GetQuestions({ searchQuery: searchParams.q });
 
   return (
     <div className="flex w-full flex-col">

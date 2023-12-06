@@ -17,37 +17,51 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { CreateAnswer } from "@/lib/actions/answer-action";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { CreateAnswer, EditAnswer } from "@/lib/actions/answer-action";
 
 interface props {
   author: string;
-  question: string;
+  question?: string;
+  edit?: boolean;
+  answer?: string;
 }
 
-const AnswerForm = ({ author, question }: props) => {
+const AnswerForm = ({ author, question, edit, answer }: props) => {
   const pathname = usePathname();
+  const router = useRouter();
   const editorRef = useRef(null);
   const { theme } = useTheme();
   const [submitting, setIsSubmitting] = useState(false);
 
+  const parsedAnswer = answer ? JSON.parse(answer) || "" : "";
+
+  console.log(parsedAnswer);
   const form = useForm<z.infer<typeof answerSchema>>({
     defaultValues: {
-      answer: "",
+      answer: parsedAnswer.content || "",
     },
     resolver: zodResolver(answerSchema),
   });
-
   const onSubmit = async (values: z.infer<typeof answerSchema>) => {
     try {
       setIsSubmitting(true);
 
-      await CreateAnswer({
-        path: pathname,
-        author: JSON.parse(author),
-        content: values.answer,
-        question: JSON.parse(question),
-      });
+      if (edit) {
+        await EditAnswer({
+          id: parsedAnswer._id,
+          content: values.answer,
+        });
+
+        router.push(`/questions/${parsedAnswer.question}/#${parsedAnswer._id}`);
+      } else {
+        await CreateAnswer({
+          path: pathname,
+          author: JSON.parse(author),
+          content: values.answer,
+          question: JSON.parse(question!),
+        });
+      }
 
       form.reset();
 
@@ -70,9 +84,11 @@ const AnswerForm = ({ author, question }: props) => {
           Answer a question
         </p>
 
-        <Button className="bg-light-800 border-[1px] rounded-lg border-light-700  dark:border-dark-300 dark:bg-dark-400  text-primary-500 py-[10px] px-[16px]">
-          Ask from AI
-        </Button>
+        {!edit && (
+          <Button className="bg-light-800 border-[1px] rounded-lg border-light-700  dark:border-dark-300 dark:bg-dark-400  text-primary-500 py-[10px] px-[16px]">
+            Ask from AI
+          </Button>
+        )}
       </div>
 
       <Form {...form}>
@@ -91,6 +107,7 @@ const AnswerForm = ({ author, question }: props) => {
                     }
                     onBlur={field.onBlur}
                     onEditorChange={(content) => field.onChange(content)}
+                    initialValue={parsedAnswer.content || ""}
                     // onSubmit={(e) => (e.target.value = "")}
                     init={{
                       height: 360,

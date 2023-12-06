@@ -1,13 +1,14 @@
 "use server";
+import Question from "@/database/question-model";
+import Tag from "@/database/tag-schema";
 import User from "@/database/user-schema";
+import { FilterQuery } from "mongoose";
 import { connectDB } from "../mongoose";
 import {
   GetAllTagsParams,
   GetQuestionsByTagIdParams,
   GetTopInteractedTagsParams,
 } from "./types.d";
-import Tag from "@/database/tag-schema";
-import Question from "@/database/question-model";
 
 export async function GetAllUsersTag(params: GetTopInteractedTagsParams) {
   try {
@@ -34,8 +35,15 @@ export async function GetAllUsersTag(params: GetTopInteractedTagsParams) {
 export async function GetAllTags(params: GetAllTagsParams) {
   try {
     connectDB();
+    const { searchQuery } = params;
 
-    const tags = await Tag.find({});
+    const query: FilterQuery<typeof Tag> = {};
+
+    if (searchQuery) {
+      query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
+    }
+
+    const tags = await Tag.find(query);
 
     return { tags };
   } catch (error) {
@@ -50,13 +58,26 @@ export async function GetQuestionByTagId(params: GetQuestionsByTagIdParams) {
 
     const { tagId, searchQuery } = params;
 
+    const words = searchQuery && searchQuery.trim().split(/\s+/);
+
+    const wordPatterns =
+      words && words.map((word) => new RegExp(`\\b${word}\\b`, "i"));
+
+    const query: FilterQuery<typeof Question> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { content: { $regex: new RegExp(searchQuery, "i") } },
+        { title: { $in: wordPatterns } },
+        { content: { $in: wordPatterns } },
+      ];
+    }
+
     const tag = await Tag.findOne({ _id: tagId }).populate({
       path: "questions",
       model: Question,
-      match: searchQuery
-        ? { title: { $regex: searchQuery, $options: "i" } }
-        : {},
-
+      match: query,
       options: {
         sort: { createdAt: -1 },
       },
@@ -71,6 +92,23 @@ export async function GetQuestionByTagId(params: GetQuestionsByTagIdParams) {
     }
 
     return tag;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function GetTopTags() {
+  try {
+    connectDB();
+
+    const tags = await Tag.aggregate([
+      { $project: { name: 1, questionCount: { $size: "$questions" } } },
+      { $sort: { questionCount: -1 } },
+      { $limit: 5 },
+    ]);
+
+    return tags;
   } catch (error) {
     console.log(error);
     throw error;
