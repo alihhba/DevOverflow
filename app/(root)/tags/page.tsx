@@ -1,12 +1,16 @@
 /* eslint-disable tailwindcss/classnames-order */
 import Filter from "@/components/Filter";
+import Pagination from "@/components/Pagination";
 import TagCard from "@/components/cards/TagCard";
 import GlobalSearch from "@/components/search/GlobalSearch";
 import { TagFilters } from "@/constant/filters";
 import { GetAllTags } from "@/lib/actions/tag-actions";
 
 const TagsPage = async ({ searchParams }: any) => {
-  const result = await GetAllTags({ searchQuery: searchParams.q });
+  const result = await GetAllTags({
+    searchQuery: searchParams.q,
+    page: searchParams.page ? +searchParams.page : 1,
+  });
 
   return (
     <div className="flex w-full flex-col">
@@ -39,6 +43,13 @@ const TagsPage = async ({ searchParams }: any) => {
           <div className="mx-auto w-full">not found</div>
         )}
       </section>
+
+      <div className="mt-10">
+        <Pagination
+          isNext={result.isNext}
+          page={searchParams?.page ? +searchParams.page : 1}
+        />
+      </div>
     </div>
   );
 };

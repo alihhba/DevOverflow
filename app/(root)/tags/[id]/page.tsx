@@ -1,5 +1,6 @@
 import Filter from "@/components/Filter";
 import NoResult from "@/components/NoResult";
+import Pagination from "@/components/Pagination";
 import QuestionCard from "@/components/cards/QuestionCard";
 import GlobalSearch from "@/components/search/GlobalSearch";
 import { QuestionFilters } from "@/constant/filters";
@@ -14,12 +15,16 @@ const collectionPage = async ({ params, searchParams }: URLProps) => {
     return null;
   }
 
-  const result = await GetQuestionByTagId({ tagId: params.id , searchQuery: searchParams.q });
+  const result = await GetQuestionByTagId({
+    tagId: params.id,
+    searchQuery: searchParams.q,
+    page: searchParams.page ? +searchParams.page : 1,
+  });
 
   return (
     <div className="flex w-full flex-col">
       <p className="h1-bold  mb-4 text-dark-200 dark:text-light-900 md:mb-7 ">
-        {result.name}
+        {result.tag.name}
       </p>
 
       <div className="flex items-center gap-2 max-md:flex-col">
@@ -37,8 +42,8 @@ const collectionPage = async ({ params, searchParams }: URLProps) => {
       </div>
 
       <div className="mt-5 flex w-full flex-col gap-5">
-        {result.questions.length > 0 ? (
-          result.questions.map((q: any) => (
+        {result.tag.questions.length > 0 ? (
+          result.tag.questions.map((q: any) => (
             <QuestionCard
               key={q._id}
               id={q._id}
@@ -59,6 +64,13 @@ const collectionPage = async ({ params, searchParams }: URLProps) => {
             desc="Add questions to tags"
           />
         )}
+      </div>
+
+      <div className="mt-10">
+        <Pagination
+          isNext={result.isNext}
+          page={searchParams?.page ? +searchParams.page : 1}
+        />
       </div>
     </div>
   );

@@ -42,16 +42,24 @@ export async function GetAllAnswers(params: GetAnswersParams) {
   try {
     connectDB();
 
-    const { questionId } = params;
+    const { questionId, page = 1, pageSize = 12 } = params;
 
-    const answers = Answer.find({ question: questionId })
+    const skipPage = (page - 1) * pageSize;
+
+    const answers = await Answer.find({ question: questionId })
       .populate({
         path: "author",
         model: User,
       })
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .skip(skipPage)
+      .limit(pageSize);
 
-    return answers;
+    const totalAnswers = await Answer.find({ question: questionId });
+
+    const isNext = totalAnswers.length > skipPage + answers.length;
+
+    return { answers, totalAnswers, isNext };
   } catch (error) {
     console.log(error);
     throw error;

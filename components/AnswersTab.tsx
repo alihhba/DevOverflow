@@ -1,12 +1,17 @@
 import { GetUserAnswers } from "@/lib/actions/users-action ";
 import NoResult from "./NoResult";
 import AnswerStatCard from "./cards/AnswesStatCard";
+import Pagination from "./Pagination";
 interface props {
   userId: string;
+  searchParams: any;
 }
 
-const AnswersTab = async ({ userId }: props) => {
-  const { answers } = await GetUserAnswers({ userId });
+const AnswersTab = async ({ userId, searchParams }: props) => {
+  const { answers, isNext } = await GetUserAnswers({
+    userId,
+    page: searchParams?.page ? +searchParams.page : 1,
+  });
 
   return (
     // eslint-disable-next-line tailwindcss/classnames-order
@@ -34,6 +39,13 @@ const AnswersTab = async ({ userId }: props) => {
           desc="This user no any answer!"
         />
       )}
+
+      <div className="mt-10">
+        <Pagination
+          isNext={isNext}
+          page={searchParams?.page ? +searchParams.page : 1}
+        />
+      </div>
     </div>
   );
 };

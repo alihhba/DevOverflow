@@ -85,6 +85,9 @@ interface urlQueryParams {
 export async function UrlQuery({ params, key, value }: urlQueryParams) {
   const currentUrl = qs.parse(params);
 
+  if (key === "q" && currentUrl[key] !== value) {
+    currentUrl.page = "1";
+  }
   currentUrl[key] = value;
 
   return qs.stringifyUrl(

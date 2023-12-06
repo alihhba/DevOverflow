@@ -50,7 +50,11 @@ const QuestionsIdPage = async ({ params, searchParams }: any) => {
           </Link>
           <div className="ml-auto">
             {question?.author.id === mongoUser[0]?.id ? (
-              <EditDeleteAnsweQuestion id={question.id} type="question"  goPath={'/'}/>
+              <EditDeleteAnsweQuestion
+                id={question.id}
+                type="question"
+                goPath={"/"}
+              />
             ) : (
               <Votes
                 type="question"
@@ -143,6 +147,7 @@ const QuestionsIdPage = async ({ params, searchParams }: any) => {
           <AllAnswers
             questionId={question._id}
             userId={mongoUser[0] && mongoUser[0]._id!}
+            searchParams={searchParams}
           />
 
           <AnswerForm

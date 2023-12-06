@@ -12,7 +12,13 @@ import Stats from "@/components/Stats";
 import QuestionsTab from "@/components/QuestionsTab";
 import AnswersTab from "@/components/AnswersTab";
 
-const ProfileIdPage = async ({ params }: { params: { id: string } }) => {
+const ProfileIdPage = async ({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: any;
+}) => {
   const { userId: clerkId } = auth();
   const { user, answerCount, questionCount } = await GetUserInfo({
     userId: params.id,
@@ -40,7 +46,7 @@ const ProfileIdPage = async ({ params }: { params: { id: string } }) => {
               @{user.username}
             </p>
             <div className="flex items-center  md:gap-5 md:mt-5 gap-2 mt-2">
-            {user.portfolioWeb && (
+              {user.portfolioWeb && (
                 <p className="flex small-regular md:body-regular items-center max-md:text-center">
                   <Link2 className="w-4 h-4 mr-0.5" />
                   {user.portfolioWeb}
@@ -57,7 +63,11 @@ const ProfileIdPage = async ({ params }: { params: { id: string } }) => {
                 Joined {getFormattedDate(user.joinedAt)}
               </p>
             </div>
-            {user.bio && <p className="md:text-lg body-regular max-md:justify-center max-md:mx-auto max-md:text-center pt-2">{user.bio}</p>}
+            {user.bio && (
+              <p className="md:text-lg body-regular max-md:justify-center max-md:mx-auto max-md:text-center pt-2">
+                {user.bio}
+              </p>
+            )}
           </div>
         </div>
 
@@ -94,10 +104,10 @@ const ProfileIdPage = async ({ params }: { params: { id: string } }) => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="top-questions" className="w-full">
-            <QuestionsTab userId={params.id} />
+            <QuestionsTab userId={params.id} searchParams={searchParams} />
           </TabsContent>
           <TabsContent value="answers">
-            <AnswersTab userId={params.id} />
+            <AnswersTab userId={params.id} searchParams/>
           </TabsContent>
         </Tabs>
       </div>

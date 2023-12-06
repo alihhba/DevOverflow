@@ -1,12 +1,16 @@
 import Filter from "@/components/Filter";
 import NoResult from "@/components/NoResult";
+import Pagination from "@/components/Pagination";
 import QuestionCard from "@/components/cards/QuestionCard";
 import GlobalSearch from "@/components/search/GlobalSearch";
 import { HomePageFilters } from "@/constant/filters";
 import { GetQuestions } from "@/lib/actions/questsion.actions";
 
 const Home = async ({ searchParams }: any) => {
-  const result = await GetQuestions({ searchQuery: searchParams.q });
+  const result = await GetQuestions({
+    searchQuery: searchParams.q,
+    page: searchParams.page,
+  });
 
   return (
     <div className="flex w-full flex-col">
@@ -54,6 +58,13 @@ const Home = async ({ searchParams }: any) => {
             btnClassName="bg-primary-500 "
           />
         )}
+      </div>
+
+      <div className="mt-10">
+        <Pagination
+          isNext={result.isNext}
+          page={searchParams?.page ? +searchParams.page : 1}
+        />
       </div>
     </div>
   );

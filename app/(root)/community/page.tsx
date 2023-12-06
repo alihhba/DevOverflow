@@ -1,12 +1,16 @@
 /* eslint-disable tailwindcss/classnames-order */
 import Filter from "@/components/Filter";
+import Pagination from "@/components/Pagination";
 import UserCard from "@/components/cards/UserCard";
 import GlobalSearch from "@/components/search/GlobalSearch";
 import { UserFilters } from "@/constant/filters";
 import { GetAllUsers } from "@/lib/actions/users-action ";
 
 const CommunityPage = async ({ searchParams }: any) => {
-  const result = await GetAllUsers({ searchQuery: searchParams.q });
+  const result = await GetAllUsers({
+    searchQuery: searchParams.q,
+    page: searchParams.page,
+  });
   // console.log(result.users);
   return (
     <div className="flex w-full flex-col">
@@ -39,6 +43,13 @@ const CommunityPage = async ({ searchParams }: any) => {
           <div className="mx-auto w-full">not found</div>
         )}
       </section>
+
+      <div className="mt-10">
+        <Pagination
+          isNext={result.isNext}
+          page={searchParams?.page ? +searchParams.page : 1}
+        />
+      </div>
     </div>
   );
 };

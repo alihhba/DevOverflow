@@ -9,7 +9,6 @@ import {
   GetQuestionsByTagIdParams,
   GetTopInteractedTagsParams,
 } from "./types.d";
-
 export async function GetAllUsersTag(params: GetTopInteractedTagsParams) {
   try {
     connectDB();
@@ -35,7 +34,9 @@ export async function GetAllUsersTag(params: GetTopInteractedTagsParams) {
 export async function GetAllTags(params: GetAllTagsParams) {
   try {
     connectDB();
-    const { searchQuery } = params;
+    const { searchQuery, page = 1, pageSize = 3 } = params;
+
+    const skipPage = (page - 1) * pageSize;
 
     const query: FilterQuery<typeof Tag> = {};
 
@@ -43,9 +44,12 @@ export async function GetAllTags(params: GetAllTagsParams) {
       query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
     }
 
-    const tags = await Tag.find(query);
+    const tags = await Tag.find(query).limit(pageSize).skip(skipPage);
+    const totalTags = await Tag.find(query);
 
-    return { tags };
+    const isNext = totalTags.length > skipPage + tags.length;
+
+    return { tags, isNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -56,7 +60,7 @@ export async function GetQuestionByTagId(params: GetQuestionsByTagIdParams) {
   try {
     connectDB();
 
-    const { tagId, searchQuery } = params;
+    const { tagId, searchQuery, page = 1, pageSize = 12 } = params;
 
     const words = searchQuery && searchQuery.trim().split(/\s+/);
 
@@ -74,12 +78,16 @@ export async function GetQuestionByTagId(params: GetQuestionsByTagIdParams) {
       ];
     }
 
+    const skipPage = (page - 1) * pageSize;
+
     const tag = await Tag.findOne({ _id: tagId }).populate({
       path: "questions",
       model: Question,
       match: query,
       options: {
         sort: { createdAt: -1 },
+        limit: pageSize,
+        skip: skipPage,
       },
       populate: [
         { path: "tags", model: Tag, select: "_id name" },
@@ -87,11 +95,23 @@ export async function GetQuestionByTagId(params: GetQuestionsByTagIdParams) {
       ],
     });
 
+    const totalTag = await Tag.findOne({ _id: tagId }).populate({
+      path: "questions",
+      model: Question,
+      match: query,
+      options: {
+        sort: { createdAt: -1 },
+      },
+    });
+
     if (!tag) {
       throw new Error("tag not found");
     }
 
-    return tag;
+    const isNext =
+      totalTag?.questions.length > skipPage + tag?.questions.length;
+
+    return { tag, isNext };
   } catch (error) {
     console.log(error);
     throw error;
