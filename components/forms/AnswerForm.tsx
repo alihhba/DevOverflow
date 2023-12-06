@@ -36,7 +36,7 @@ const AnswerForm = ({ author, question, edit, answer }: props) => {
 
   const parsedAnswer = answer ? JSON.parse(answer) || "" : "";
 
-  console.log(parsedAnswer);
+  // console.log(parsedAnswer);
   const form = useForm<z.infer<typeof answerSchema>>({
     defaultValues: {
       answer: parsedAnswer.content || "",

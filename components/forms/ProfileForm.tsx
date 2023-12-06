@@ -30,7 +30,7 @@ const ProfileForm = ({ clerkId, userData }: askQuestionFormProps) => {
 
   const router = useRouter();
   const pathname = usePathname();
-  console.log(clerkId);
+  // console.log(clerkId);
   const parsedQuestionInfo = JSON.parse(userData || "{}");
 
   const form = useForm<z.infer<typeof profileSchema>>({
