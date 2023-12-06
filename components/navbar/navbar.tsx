@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { ThemeToggleButton } from "../ThemeToggleButton";
 import MobileToogle from "./MobileToogle";
-import GlobalSearch from "../search/GlobalSearch";
+// import GlobalSearch from "../search/GlobalSearch";
 
 const Navbar = () => {
   return (
