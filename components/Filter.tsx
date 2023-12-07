@@ -62,7 +62,7 @@ const Filter = ({ filter, className, mainClassName }: filterProps) => {
 
       {showFilter && (
         <div
-          className={`absolute  top-14 z-50 bg-light-850 dark:bg-dark-200 rounded-lg px-3 py-2 md:max-w-[170px] md:w-[170px] max-md:w-full`}
+          className={`absolute  top-14 z-50 bg-light-850 dark:bg-dark-200 rounded-lg px-3 py-2 md:max-w-[170px] md:w-[170px] max-md:w-full `}
         >
           {filter.map((item) => (
             <div
