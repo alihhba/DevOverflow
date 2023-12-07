@@ -1,6 +1,7 @@
 import { SidebarLink } from "@/types";
 
 export const sidebarLinks: SidebarLink[] = [
+  
   {
     imgURL: "/assets/icons/home.svg",
     route: "/",
