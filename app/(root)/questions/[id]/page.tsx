@@ -8,11 +8,12 @@ import ParseHtml from "@/components/ParseHtml";
 import Tag from "@/components/Tag";
 import Votes from "@/components/Votes";
 import AnswerForm from "@/components/forms/AnswerForm";
+import { Button } from "@/components/ui/button";
 import { AnswerFilters } from "@/constant/filters";
 import User from "@/database/user-schema";
 import { GetQuestionById } from "@/lib/actions/questsion.actions";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
-import { auth } from "@clerk/nextjs";
+import { SignedIn, SignedOut, auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -50,15 +51,17 @@ const QuestionsIdPage = async ({ params, searchParams }: any) => {
           </Link>
           <div className="ml-auto">
             {question?.author.id === mongoUser[0]?.id ? (
-              <EditDeleteAnsweQuestion
-                id={question.id}
-                type="question"
-                goPath={"/"}
-              />
+              <SignedIn>
+                <EditDeleteAnsweQuestion
+                  id={question.id}
+                  type="question"
+                  goPath={"/"}
+                />
+              </SignedIn>
             ) : (
               <Votes
                 type="question"
-                userId={mongoUser[0] && mongoUser[0]._id}
+                userId={mongoUser[0] && mongoUser[0]?._id}
                 itemId={question._id}
                 upVotes={question.upVotes.length}
                 hasUpVote={question.upVotes.includes(
@@ -150,10 +153,25 @@ const QuestionsIdPage = async ({ params, searchParams }: any) => {
             searchParams={searchParams}
           />
 
-          <AnswerForm
-            author={JSON.stringify(mongoUser[0] && mongoUser[0]._id)}
-            question={JSON.stringify(question._id)}
-          />
+          <SignedIn>
+            <AnswerForm
+              author={JSON.stringify(mongoUser[0] && mongoUser[0]?._id)}
+              question={JSON.stringify(question._id)}
+            />
+          </SignedIn>
+          <SignedOut>
+            <div className="text-center">
+              <p>SignUp / Login to Answer</p>
+              <div className="flex items-center gap-3 mt-3 justify-center">
+                <Button className="px-3 py-1 bg-primary-500 text-white w-20">
+                  <Link href="/sign-in">Login</Link>
+                </Button>
+                <Button className="px-3 py-1 bg-primary-500 text-white w-20">
+                  <Link href="/sign-up">Sign up</Link>
+                </Button>
+              </div>
+            </div>
+          </SignedOut>
         </div>
       </div>
     </>

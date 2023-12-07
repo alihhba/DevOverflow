@@ -41,7 +41,7 @@ const AnswerCard = async ({
   return (
     <div className="flex flex-col w-full mt-7">
       {/* author & votes */}
-      <div className="flex md:items-center justify-between max-md:flex-col">
+      <div className="flex md:items-center justify-between">
         <div className="flex md:items-center gap-2 max-md:flex-col">
           <Link
             href={`/profile/${author.clerkId}`}
@@ -70,7 +70,7 @@ const AnswerCard = async ({
           ) : (
             <Votes
               type="answer"
-              userId={userId.toString()}
+              userId={userId?.toString()}
               itemId={id.toString()}
               upVotes={upVotes.length}
               hasUpVote={upVotes.includes(userId)}

@@ -75,7 +75,7 @@ const QuestionCard = async ({
           </div>
         </div>
         {/* title */}
-        <Link href={`/questions/${id}`}>
+        <Link href={`/questions/${id}`} className={`${showActionBtn && 'md:mt-4'}`}>
           <p className="md:h3-semibold base-medium  line-clamp-2 md:leading-8 lg:line-clamp-3">
             {title}
           </p>

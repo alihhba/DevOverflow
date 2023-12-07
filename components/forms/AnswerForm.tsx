@@ -51,6 +51,7 @@ const AnswerForm = ({ author, question, edit, answer }: props) => {
         await EditAnswer({
           id: parsedAnswer._id,
           content: values.answer,
+          path: pathname,
         });
 
         router.push(`/questions/${parsedAnswer.question}/#${parsedAnswer._id}`);
@@ -79,7 +80,7 @@ const AnswerForm = ({ author, question, edit, answer }: props) => {
 
   return (
     <div>
-      <div className="flex items-center justify-between mt-10 mb-4">
+      <div className="flex items-center justify-between  md:mt-10 mb-4">
         <p className="paragraph-semibold text-dark-100 dark:text-light-800">
           Answer a question
         </p>
@@ -110,7 +111,7 @@ const AnswerForm = ({ author, question, edit, answer }: props) => {
                     initialValue={parsedAnswer.content || ""}
                     // onSubmit={(e) => (e.target.value = "")}
                     init={{
-                      height: 360,
+                      height: edit ? 600 : 360,
                       menubar: false,
                       plugins: [
                         "advlist",

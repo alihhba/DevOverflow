@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/classnames-order */
 import { cn } from "@/lib/utils";
 import React from "react";
 import {
@@ -27,7 +28,7 @@ const  Filter = ({ filter, className, mainClassName }: filterProps) => {
         >
           <SelectValue placeholder="Select filter" />
         </SelectTrigger>
-        <SelectContent className="bg-light-800 dark:bg-dark-200">
+        <SelectContent className="bg-light-800 dark:bg-dark-200 z-50">
           <SelectGroup>
             {filter.map((item) => (
               <SelectItem key={item.value} value={item.value} >

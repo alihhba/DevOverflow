@@ -139,4 +139,5 @@ export interface GetAnswerByIdParams {
 export interface UpdateAnswerParams {
   id: string;
   content: string;
+  path: string;
 }

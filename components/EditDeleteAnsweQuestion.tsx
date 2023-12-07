@@ -42,7 +42,11 @@ const EditDeleteAnsweQuestion = ({ id, type, goPath }: props) => {
 
   return (
     <div className="flex items-center max-md:gap-1">
-      <Link href={type === 'question' ? `/questions/edit/${id}` : `/answers/edit/${id}`}>
+      <Link
+        href={
+          type === "question" ? `/questions/edit/${id}` : `/answers/edit/${id}`
+        }
+      >
         <Button disabled={questionLoading || answerLoading} className="p-1">
           <EditIcon className="w-4 h-4 " />
         </Button>

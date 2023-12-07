@@ -6,14 +6,10 @@ import GlobalSearch from "@/components/search/GlobalSearch";
 import { QuestionFilters } from "@/constant/filters";
 import { URLProps } from "@/index";
 import { GetQuestionByTagId } from "@/lib/actions/tag-actions";
-import { auth } from "@clerk/nextjs";
 
 const collectionPage = async ({ params, searchParams }: URLProps) => {
-  const { userId: clerkId } = auth();
 
-  if (!clerkId) {
-    return null;
-  }
+
 
   const result = await GetQuestionByTagId({
     tagId: params.id,

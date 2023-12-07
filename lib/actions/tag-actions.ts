@@ -34,7 +34,7 @@ export async function GetAllUsersTag(params: GetTopInteractedTagsParams) {
 export async function GetAllTags(params: GetAllTagsParams) {
   try {
     connectDB();
-    const { searchQuery, page = 1, pageSize = 3 } = params;
+    const { searchQuery, page = 1, pageSize = 12 } = params;
 
     const skipPage = (page - 1) * pageSize;
 

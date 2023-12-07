@@ -226,20 +226,20 @@ export async function GetSavedQuestion(params: GetSavedQuestionsParams) {
       ],
     });
 
-    const userTotal = await User.findOne({ clerkId }).populate({
-      path: "saved",
-      match: query,
-      options: {
-        sort: { createdAt: -1 },
-      },
-    });
-
     if (!user) {
       throw new Error("user not found");
     }
 
-    const totalQuestionsCount = await Question.countDocuments(query);
-    const isNext = totalQuestionsCount > skipPage + userTotal.saved.length;
+    const totalQuestionsCount = await User.findOne({ clerkId }).populate({
+      path: "saved",
+      match: query,
+      options: {
+        sort: { createdAt: -1 },
+        limit: pageSize,
+        skip: skipPage,
+      },
+    });
+    const isNext = totalQuestionsCount.saved.length > skipPage + user.saved.length;
 
     return { questions: user, isNext };
   } catch (error) {
@@ -251,7 +251,7 @@ export async function GetSavedQuestion(params: GetSavedQuestionsParams) {
 export async function GetUserTopQuestions(params: GetUserStatsParams) {
   try {
     connectDB();
-    const { userId, page = 1, pageSize = 12} = params;
+    const { userId, page = 1, pageSize = 12 } = params;
 
     const user = await User.findOne({ clerkId: userId });
 

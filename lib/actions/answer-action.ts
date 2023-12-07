@@ -180,7 +180,7 @@ export async function EditAnswer(params: UpdateAnswerParams) {
   try {
     connectDB();
 
-    const { id, content } = params;
+    const { id, content, path } = params;
 
     const answer = await Answer.findById(id);
 
@@ -188,6 +188,7 @@ export async function EditAnswer(params: UpdateAnswerParams) {
 
     answer.save();
 
+    revalidatePath(path);
     return answer;
   } catch (error) {
     console.log(error);

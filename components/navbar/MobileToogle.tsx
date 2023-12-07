@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/classnames-order */
 "use client";
 import {
   Sheet,
@@ -71,7 +72,7 @@ const MobileToogle = () => {
           })}
         </div>
 
-        <div className="mt-auto flex w-full flex-col  items-end justify-end gap-3 px-6">
+        <div className="mt-auto mb-12 flex w-full flex-col  items-end justify-end gap-3 px-6">
           <SheetClose className="w-full">
             <LoginButton mobile={true} />
           </SheetClose>

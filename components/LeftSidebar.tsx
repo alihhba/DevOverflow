@@ -49,7 +49,7 @@ const LeftSidebar = () => {
         })}
       </div>
 
-      <div className="mt-auto flex  flex-col gap-2 px-6">
+      <div className="mt-auto  flex  flex-col gap-2 px-6">
         <LoginButton mobile={false} />
         <SignupButton mobile={false} />
       </div>
