@@ -23,9 +23,9 @@ const Stats = ({ answerCount, questionCount }: props) => {
         </div>
       </div>
       {/* other box */}
-      <StatsBox image='/assets/images/gold medal.svg' title='Gold badges' value={1} />
-      <StatsBox image='/assets/images/silver medal.svg' title='Silver badges' value={1}/>
-      <StatsBox image='/assets/images/bronze medal.svg' title='Bronze badges' value={1}/>
+      <StatsBox image='/assets/images/gold-medal.svg' title='Gold badges' value={1} />
+      <StatsBox image='/assets/images/silver-medal.svg' title='Silver badges' value={1}/>
+      <StatsBox image='/assets/images/bronze-medal.svg' title='Bronze badges' value={1}/>
     </div>
   );
 };
