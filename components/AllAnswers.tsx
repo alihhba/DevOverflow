@@ -19,9 +19,10 @@ const AllAnswers = async ({
   userId,
   searchParams,
 }: props) => {
-  const { answers,totalAnswers, isNext } = await GetAllAnswers({
+  const { answers, totalAnswers, isNext } = await GetAllAnswers({
     questionId,
     page: searchParams?.page ? +searchParams.page : 1,
+    filter: searchParams.filter,
   });
   return (
     <div>

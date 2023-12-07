@@ -122,7 +122,7 @@ export async function GetAllUsers(params: GetAllUsersParams) {
   try {
     connectDB();
 
-    const { searchQuery, page = 1, pageSize = 12 } = params;
+    const { searchQuery, page = 1, pageSize = 12, filter } = params;
 
     const query: FilterQuery<typeof User> = {};
 
@@ -133,12 +133,28 @@ export async function GetAllUsers(params: GetAllUsersParams) {
       ];
     }
 
+    let sortOptions = {};
+
+    switch (filter) {
+      case "new_users":
+        sortOptions = { joinedAt: -1 };
+        break;
+      case "old_users":
+        sortOptions = { joinedAt: 1 };
+        break;
+      case "top_contributors":
+        sortOptions = { reputation: -1 };
+        break;
+      default:
+        break;
+    }
+
     const skipPage = (page - 1) * pageSize;
 
     const users = await User.find(query)
       .skip(skipPage)
       .limit(pageSize)
-      .sort({ joinedAt: -1 });
+      .sort(sortOptions);
 
     const totalUsersCount = await User.countDocuments(query);
 
@@ -195,7 +211,7 @@ export async function GetSavedQuestion(params: GetSavedQuestionsParams) {
   try {
     connectDB();
 
-    const { searchQuery, page = 1, pageSize = 12, clerkId } = params;
+    const { searchQuery, page = 1, pageSize = 12, clerkId, filter } = params;
 
     const query: FilterQuery<typeof Question> = {};
 
@@ -208,11 +224,27 @@ export async function GetSavedQuestion(params: GetSavedQuestionsParams) {
       ];
     }
 
+    let sortOptions = {};
+
+    switch (filter) {
+      case "newest":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "frequent":
+        sortOptions = { views: -1 };
+        break;
+      case "unanswered":
+        query.answers = { $size: 0 };
+        break;
+      default:
+        break;
+    }
+
     const user = await User.findOne({ clerkId }).populate({
       path: "saved",
       match: query,
       options: {
-        sort: { createdAt: -1 },
+        sort: sortOptions,
         limit: pageSize,
         skip: skipPage,
       },
@@ -239,7 +271,8 @@ export async function GetSavedQuestion(params: GetSavedQuestionsParams) {
         skip: skipPage,
       },
     });
-    const isNext = totalQuestionsCount.saved.length > skipPage + user.saved.length;
+    const isNext =
+      totalQuestionsCount.saved.length > skipPage + user.saved.length;
 
     return { questions: user, isNext };
   } catch (error) {

@@ -8,13 +8,11 @@ import { URLProps } from "@/index";
 import { GetQuestionByTagId } from "@/lib/actions/tag-actions";
 
 const collectionPage = async ({ params, searchParams }: URLProps) => {
-
-
-
   const result = await GetQuestionByTagId({
     tagId: params.id,
     searchQuery: searchParams.q,
     page: searchParams.page ? +searchParams.page : 1,
+    filter: searchParams.filter,
   });
 
   return (

@@ -71,7 +71,7 @@ export async function GetQuestions(params: GetQuestionsParams) {
   try {
     connectDB();
 
-    const { searchQuery, page = 1, pageSize = 12 } = params;
+    const { searchQuery, page = 1, pageSize = 12, filter } = params;
 
     const words = searchQuery && searchQuery.trim().split(/\s+/);
 
@@ -90,7 +90,23 @@ export async function GetQuestions(params: GetQuestionsParams) {
     }
 
     const skipPage = (page - 1) * pageSize;
-    
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "newest":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "frequent":
+        sortOptions = { views: -1 };
+        break;
+      case "unanswered":
+        query.answers = { $size: 0 };
+        break;
+      default:
+        break;
+    }
+
     const questions = await Question.find(query)
       .populate({
         path: "tags",
@@ -99,7 +115,7 @@ export async function GetQuestions(params: GetQuestionsParams) {
       .populate({ path: "author", model: User })
       .limit(pageSize)
       .skip(skipPage)
-      .sort({ createdAt: -1 });
+      .sort(sortOptions);
 
     const totalQuestionsCount = await Question.countDocuments(query);
     const isNext = totalQuestionsCount > skipPage + questions.length;

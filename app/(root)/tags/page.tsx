@@ -10,7 +10,9 @@ const TagsPage = async ({ searchParams }: any) => {
   const result = await GetAllTags({
     searchQuery: searchParams.q,
     page: searchParams.page ? +searchParams.page : 1,
+    filter: searchParams.filter,
   });
+
 
   return (
     <div className="flex w-full flex-col">

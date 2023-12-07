@@ -10,6 +10,7 @@ const CommunityPage = async ({ searchParams }: any) => {
   const result = await GetAllUsers({
     searchQuery: searchParams.q,
     page: searchParams.page,
+    filter: searchParams.filter,
   });
   // console.log(result.users);
   return (

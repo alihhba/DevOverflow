@@ -42,16 +42,33 @@ export async function GetAllAnswers(params: GetAnswersParams) {
   try {
     connectDB();
 
-    const { questionId, page = 1, pageSize = 12 } = params;
+    const { questionId, page = 1, pageSize = 12, filter } = params;
 
     const skipPage = (page - 1) * pageSize;
+
+    let sortOptions = {};
+
+    switch (filter) {
+      case "highestUpvotes":
+        sortOptions = { upVotes: -1 };
+        break;
+      case "lowestUpvotes":
+        sortOptions = { upVotes: 1 };
+        break;
+      case "recent":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "old":
+        sortOptions = { createdAt: 1 };
+        break;
+    }
 
     const answers = await Answer.find({ question: questionId })
       .populate({
         path: "author",
         model: User,
       })
-      .sort({ createdAt: -1 })
+      .sort(sortOptions)
       .skip(skipPage)
       .limit(pageSize);
 

@@ -18,6 +18,7 @@ const collectionPage = async ({ searchParams }: any) => {
     clerkId,
     searchQuery: searchParams.q,
     page: searchParams.page ? +searchParams.page : 1,
+    filter: searchParams.filter,
   });
 
   return (

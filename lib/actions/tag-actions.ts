@@ -34,7 +34,7 @@ export async function GetAllUsersTag(params: GetTopInteractedTagsParams) {
 export async function GetAllTags(params: GetAllTagsParams) {
   try {
     connectDB();
-    const { searchQuery, page = 1, pageSize = 12 } = params;
+    const { searchQuery, page = 1, pageSize = 12, filter } = params;
 
     const skipPage = (page - 1) * pageSize;
 
@@ -44,7 +44,27 @@ export async function GetAllTags(params: GetAllTagsParams) {
       query.$or = [{ name: { $regex: new RegExp(searchQuery, "i") } }];
     }
 
-    const tags = await Tag.find(query).limit(pageSize).skip(skipPage);
+    let sortOptions = {};
+
+    switch (filter) {
+      case "recent":
+        sortOptions = { createdOn: -1 };
+        break;
+      case "old":
+        sortOptions = { createdOn: 1 };
+        break;
+      case "name":
+        sortOptions = { name: 1 };
+        break;
+      case "popular":
+        sortOptions = { questions: -1 };
+        break;
+    }
+
+    const tags = await Tag.find(query)
+      .limit(pageSize)
+      .skip(skipPage)
+      .sort(sortOptions);
     const totalTags = await Tag.find(query);
 
     const isNext = totalTags.length > skipPage + tags.length;
@@ -60,7 +80,7 @@ export async function GetQuestionByTagId(params: GetQuestionsByTagIdParams) {
   try {
     connectDB();
 
-    const { tagId, searchQuery, page = 1, pageSize = 12 } = params;
+    const { tagId, searchQuery, page = 1, pageSize = 12, filter } = params;
 
     const words = searchQuery && searchQuery.trim().split(/\s+/);
 
@@ -78,6 +98,26 @@ export async function GetQuestionByTagId(params: GetQuestionsByTagIdParams) {
       ];
     }
 
+    let sortOptions = {};
+
+    switch (filter) {
+      case "most_recent":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "oldest":
+        sortOptions = { createdAt: 1 };
+        break;
+      case "most_voted":
+        sortOptions = { upVotes: -1 };
+        break;
+      case "most_viewed":
+        sortOptions = { views: -1 };
+        break;
+      case "most_answered":
+        sortOptions = { answers: -1 };
+        break;
+    }
+
     const skipPage = (page - 1) * pageSize;
 
     const tag = await Tag.findOne({ _id: tagId }).populate({
@@ -85,7 +125,7 @@ export async function GetQuestionByTagId(params: GetQuestionsByTagIdParams) {
       model: Question,
       match: query,
       options: {
-        sort: { createdAt: -1 },
+        sort: sortOptions,
         limit: pageSize,
         skip: skipPage,
       },

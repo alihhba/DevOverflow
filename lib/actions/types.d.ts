@@ -12,6 +12,7 @@ export interface GetAnswersParams {
   sortBy?: string;
   page?: number;
   pageSize?: number;
+  filter?: string;
 }
 export interface AnswerVoteParams {
   answerId: string;
@@ -86,6 +87,7 @@ export interface GetQuestionsByTagIdParams {
   page?: number;
   pageSize?: number;
   searchQuery?: string;
+  filter?: string;
 }
 export interface GetTopInteractedTagsParams {
   userId: string;
