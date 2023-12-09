@@ -11,8 +11,6 @@ const AskQuestionPage = async () => {
     redirect("/sign-up");
   }
 
- 
-
   const user = await getUserById({ userId });
 
   return (

@@ -13,6 +13,7 @@ const CommunityPage = async ({ searchParams }: any) => {
     filter: searchParams.filter,
   });
   // console.log(result.users);
+
   return (
     <div className="flex w-full flex-col">
       <p className="h1-bold  mb-4 text-dark-200 dark:text-light-900 md:mb-7 ">

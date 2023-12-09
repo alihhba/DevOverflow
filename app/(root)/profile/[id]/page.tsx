@@ -107,7 +107,7 @@ const ProfileIdPage = async ({
             <QuestionsTab userId={params.id} searchParams={searchParams} />
           </TabsContent>
           <TabsContent value="answers">
-            <AnswersTab userId={params.id} searchParams/>
+            <AnswersTab userId={params.id} searchParams />
           </TabsContent>
         </Tabs>
       </div>
