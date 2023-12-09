@@ -19,6 +19,7 @@ import {
 } from "../ui/form";
 import { usePathname, useRouter } from "next/navigation";
 import { CreateAnswer, EditAnswer } from "@/lib/actions/answer-action";
+import { useToast } from "../ui/use-toast";
 
 interface props {
   author: string;
@@ -33,6 +34,7 @@ const AnswerForm = ({ author, question, edit, answer }: props) => {
   const editorRef = useRef(null);
   const { theme } = useTheme();
   const [submitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const parsedAnswer = answer ? JSON.parse(answer) || "" : "";
 
@@ -55,12 +57,19 @@ const AnswerForm = ({ author, question, edit, answer }: props) => {
         });
 
         router.push(`/questions/${parsedAnswer.question}/#${parsedAnswer._id}`);
+        toast({
+          title: "Answer Edited",
+        });
       } else {
         await CreateAnswer({
           path: pathname,
           author: JSON.parse(author),
           content: values.answer,
           question: JSON.parse(question!),
+        });
+
+        toast({
+          title: "Answer created",
         });
       }
 
@@ -73,6 +82,18 @@ const AnswerForm = ({ author, question, edit, answer }: props) => {
       }
     } catch (error) {
       console.log(error);
+
+      if (edit) {
+        toast({
+          title: "Answer not Edited",
+          variant: "danger",
+        });
+      } else {
+        toast({
+          title: "Answer not Submitted",
+          variant: "danger",
+        });
+      }
     } finally {
       setIsSubmitting(false);
     }

@@ -22,6 +22,7 @@ import { useForm } from "react-hook-form";
 import Tag from "../Tag";
 import { useTheme } from "next-themes";
 import { Loader2 } from "lucide-react";
+import { useToast } from "../ui/use-toast";
 
 interface askQuestionFormProps {
   isEdit: boolean;
@@ -39,6 +40,7 @@ const AskQuestionForm = ({
   const router = useRouter();
   const pathname = usePathname();
   const editorRef = useRef(null);
+  const { toast } = useToast();
 
   const parsedQuestionInfo = JSON.parse(questionInfo || "{}");
 
@@ -67,6 +69,9 @@ const AskQuestionForm = ({
         });
 
         router.push(`/questions/${parsedQuestionInfo.question._id}`);
+        toast({
+          title: "question edited",
+        });
       } else {
         await createQuestion({
           title: values.title,
@@ -77,9 +82,23 @@ const AskQuestionForm = ({
         });
 
         router.push("/");
+        toast({
+          title: "question submitted",
+        });
       }
     } catch (error) {
       console.log(error);
+      if (isEdit) {
+        toast({
+          title: "question not edited",
+          variant: "danger",
+        });
+      } else {
+        toast({
+          title: "question not submitted",
+          variant: "danger",
+        });
+      }
     } finally {
       setTimeout(() => {
         setIsSubmitting(false);

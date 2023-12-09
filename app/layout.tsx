@@ -8,6 +8,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import React from "react";
 import "./globals.css";
 import "../styles/prism.css";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {
@@ -37,7 +38,8 @@ export default function RootLayout({
         <body className={inter.className}>
           <HydrationProvider>
             <ThemeProvider attribute="class" defaultTheme="system">
-              {children}
+              <main>{children}</main>
+              <Toaster />
             </ThemeProvider>
           </HydrationProvider>
         </body>

@@ -7,6 +7,7 @@ import { DeleteQuestion } from "@/lib/actions/questsion.actions";
 import { useState } from "react";
 import { DeleteAnswer } from "@/lib/actions/answer-action";
 import Link from "next/link";
+import { useToast } from "./ui/use-toast";
 interface props {
   type: "question" | "answer";
   id: string;
@@ -18,6 +19,7 @@ const EditDeleteAnsweQuestion = ({ id, type, goPath }: props) => {
   const [answerLoading, setAnswerLoading] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleDelete = async (type: "answer" | "question") => {
     try {
@@ -25,9 +27,19 @@ const EditDeleteAnsweQuestion = ({ id, type, goPath }: props) => {
         setQuestionLoading(true);
         await DeleteQuestion({ questionId: id, path: pathname });
         goPath && router.push(goPath);
+
+        toast({
+          title: "Question deleted",
+          variant: "danger",
+        });
       } else if (type === "answer") {
         setAnswerLoading(true);
         await DeleteAnswer({ answerId: id, path: pathname });
+
+        toast({
+          title: "Answer deleted",
+          variant: "danger",
+        });
       }
     } catch (error) {
       console.log(error);
