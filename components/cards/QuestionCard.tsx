@@ -4,9 +4,9 @@ import { formatNumber, getTimeStamp } from "@/lib/utils";
 import { SignedIn, auth } from "@clerk/nextjs";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa";
+import EditDeleteAnsweQuestion from "../EditDeleteAnsweQuestion";
 import Metrics from "../Metrics";
 import Tag from "../Tag";
-import EditDeleteAnsweQuestion from "../EditDeleteAnsweQuestion";
 
 interface questionCardProps {
   id: string;
@@ -44,7 +44,7 @@ const QuestionCard = async ({
 
   const user = await getUserById({ userId });
   return (
-    <div className="relative flex w-full flex-col gap-2 rounded-lg bg-light-900 p-3 drop-shadow-lg dark:bg-dark-200   dark:shadow-none md:px-5 md:py-4">
+    <div className="relative flex w-full flex-col gap-2  border-b dark:border-dark-400 md:px-5 md:py-3">
       {/* saved & delete & update buttons */}
       <div className="absolute top-2 right-2 max-md:hidden">
         <div className="flex items-center gap-3">
@@ -75,7 +75,10 @@ const QuestionCard = async ({
           </div>
         </div>
         {/* title */}
-        <Link href={`/questions/${id}`} className={`${showActionBtn && 'md:mt-4'}`}>
+        <Link
+          href={`/questions/${id}`}
+          className={`${showActionBtn && "md:mt-4"}`}
+        >
           <p className="md:h3-semibold base-medium  line-clamp-2 md:leading-8 lg:line-clamp-3">
             {title}
           </p>

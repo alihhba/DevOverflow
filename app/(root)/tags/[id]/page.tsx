@@ -35,7 +35,7 @@ const collectionPage = async ({ params, searchParams }: URLProps) => {
         />
       </div>
 
-      <div className="mt-5 flex w-full flex-col gap-5">
+      <div className="mt-5 flex w-full flex-col">
         {result.tag.questions.length > 0 ? (
           result.tag.questions.map((q: any) => (
             <QuestionCard

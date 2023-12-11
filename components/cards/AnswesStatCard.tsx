@@ -45,7 +45,7 @@ const AnswerStatCard = async ({
   const user = await getUserById({ userId });
 
   return (
-    <div className="relative flex w-full flex-col gap-2 rounded-lg bg-light-900 p-3 drop-shadow-lg dark:bg-dark-200   dark:shadow-none md:px-5 md:py-4">
+    <div className="relative flex w-full flex-col gap-2  p-3 drop-shadow-lg  border-b dark:border-dark-300 dark:shadow-none md:px-5 md:py-4">
       {user?.saved.includes(id) && (
         <div className="absolute top-3 right-3">
           <FaStar />

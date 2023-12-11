@@ -33,7 +33,7 @@ const Home = async ({ searchParams }: any) => {
         />
       </div>
 
-      <div className="mt-5 flex w-full flex-col gap-3">
+      <div className="mt-5 flex w-full flex-col">
         {result.questions.length > 0 ? (
           result.questions.map((q) => (
             <QuestionCard

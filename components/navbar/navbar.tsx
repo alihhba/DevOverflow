@@ -11,14 +11,14 @@ const Navbar = () => {
     <nav className="flex-between  fixed top-0 z-50 w-full border-b bg-light-900 p-4 dark:border-dark-300 dark:bg-dark-200 sm:px-12">
       <Link href="/" className="flex items-center gap-1">
         <Image
-          src={"/assets/images/icon.svg"}
-          width={23}
-          height={23}
+          src={"/assets/images/icon.png"}
+          width={35}
+          height={35}
           alt="devLogo"
         />
 
         <p className="h2-bold font-spaceGrotesk text-dark-100 dark:text-light-900 max-sm:hidden">
-          Dev<span className="text-primary-500">Overflow</span>
+          Q<span className="text-primary-500">Dev</span>
         </p>
       </Link>
 

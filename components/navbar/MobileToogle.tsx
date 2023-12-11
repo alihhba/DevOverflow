@@ -31,14 +31,14 @@ const MobileToogle = () => {
         <div className="sticky top-0 z-50 h-fit w-full bg-light-900 p-6 dark:bg-dark-200">
           <Link href="/" className="flex items-center gap-1 ">
             <Image
-              src={"/assets/images/icon.svg"}
-              width={23}
-              height={23}
+              src={"/assets/images/icon.png"}
+              width={35}
+              height={35}
               alt="devLogo"
             />
 
             <p className="h2-bold font-spaceGrotesk text-dark-100 dark:text-light-900">
-              Dev<span className="text-primary-500">Overflow</span>
+              Q<span className="text-primary-500">Dev</span>
             </p>
           </Link>
         </div>
